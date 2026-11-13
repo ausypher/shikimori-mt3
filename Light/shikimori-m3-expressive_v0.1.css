@@ -1089,59 +1089,69 @@ input[type="radio"]:focus-visible {
 }
 
 /* =====================================================================
-   16b. "SCROLL TO TOP" EDGE BUTTON (left side)
-   Matched structurally: any element that has both a .slide and an
-   .arrow child. On hover the whole left edge, bottom to top, gets a
-   tonal rounded field with a vertical "Наверх" label; the arrow nudges up.
+   16b. SCROLL TO TOP — NATIVE SHIKIMORI CONTROL
+   Keep Shikimori's original geometry and click target intact.
+   Only restyle the existing .slide and .arrow children.
    ===================================================================== */
 
-div:has(> .slide):has(> .arrow) {
-  cursor: pointer;
+.b-to-top {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  z-index: 20 !important;
 }
 
-div:has(> .slide):has(> .arrow) > .slide {
-  position: absolute !important;
-  inset: 0 !important;
-  width: auto !important;
-  height: auto !important;
+.b-to-top > .slide {
+  /* Preserve native position, dimensions and hit area. */
   border-radius: 0 var(--sx-radius-lg) var(--sx-radius-lg) 0 !important;
-  background: linear-gradient(90deg, rgba(80, 123, 156, .24) 0%, rgba(80, 123, 156, .09) 100%) !important;
-  box-shadow: inset 0 0 0 1.5px rgba(80, 123, 156, .38),
-              6px 0 20px rgba(35, 52, 68, .10) !important;
-  opacity: 0 !important;
-  transform: translateX(-10px);
-  pointer-events: none;
-  transition: opacity .25s var(--sx-ease-expressive),
-              transform .3s var(--sx-ease-expressive);
+  background: rgba(80, 123, 156, .055) !important;
+  box-shadow: inset 1px 0 0 rgba(80, 123, 156, .16) !important;
+  pointer-events: none !important;
+  transition: background .22s var(--sx-ease-expressive),
+              box-shadow .22s var(--sx-ease-expressive);
 }
 
-div:has(> .slide):has(> .arrow) > .slide::after {
+.b-to-top > .slide::after {
   content: "Наверх";
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%) rotate(180deg);
   writing-mode: vertical-rl;
-  font: 500 13px/1 "Roboto", Arial, sans-serif;
-  letter-spacing: .3em;
+  font: 600 13px/1 "Roboto", Arial, sans-serif;
+  letter-spacing: .22em;
   text-transform: uppercase;
   white-space: nowrap;
-  color: #2f5877;
+  color: #244f70;
+  opacity: 0;
+  transition: opacity .2s ease;
+  pointer-events: none;
+}
+
+.b-to-top > .arrow {
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  div:has(> .slide):has(> .arrow):hover > .slide {
-    opacity: 1 !important;
-    transform: none;
+  .b-to-top:hover > .slide {
+    background: linear-gradient(90deg, rgba(80, 123, 156, .30), rgba(80, 123, 156, .16)) !important;
+    box-shadow: inset 0 0 0 2px rgba(49, 95, 134, .58),
+                5px 0 22px rgba(35, 52, 68, .14) !important;
   }
 
-  div:has(> .slide):has(> .arrow):hover > .arrow {
+  .b-to-top:hover > .slide::after {
+    opacity: 1;
+  }
+
+  .b-to-top:hover > .arrow {
     animation: sx-arrow-nudge 1.1s ease-in-out infinite;
   }
 }
 
-div:has(> .slide):has(> .arrow):active > .slide {
-  background: linear-gradient(90deg, rgba(80, 123, 156, .34) 0%, rgba(80, 123, 156, .14) 100%) !important;
+.b-to-top:active > .slide {
+  background: linear-gradient(90deg, rgba(80, 123, 156, .42), rgba(80, 123, 156, .24)) !important;
+  box-shadow: inset 0 0 0 2px rgba(49, 95, 134, .72) !important;
 }
 
 @keyframes sx-arrow-nudge {
@@ -1305,7 +1315,7 @@ div:has(> .slide):has(> .arrow):active > .slide {
   select, textarea,
   .activity .graph.vertical .line .bar,
   .b-stats_bar .bar,
-  div:has(> .slide):has(> .arrow) > .slide {
+  .b-to-top > .slide {
     corner-shape: squircle;
   }
 }
@@ -1343,7 +1353,7 @@ div:has(> .slide):has(> .arrow):active > .slide {
 
   .activity .graph.vertical .line .bar,
   .b-spoiler_inline,
-  div:has(> .slide):has(> .arrow) > .arrow {
+  .b-to-top > .arrow {
     animation: none !important;
     transform: none !important;
   }
