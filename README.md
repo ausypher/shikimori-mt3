@@ -1,11 +1,13 @@
 # Shikimori — Material Design 3 Expressive
 
-A custom CSS theme for [Shikimori](https://shikimori.one/) inspired by **Material Design 3 Expressive**. The project brings its expressive visual language to the Shikimori interface through a considered color palette, rounded shapes, tonal surfaces, typography, and carefully styled interface elements.
+A custom CSS theme for [Shikimori](https://shikimori.one/) inspired by **Material Design 3 Expressive**. It brings an expressive visual language to the Shikimori interface through a considered color palette, rounded shapes, tonal surfaces, typography, and carefully styled interface elements.
 
 ## Themes
 
-- **Light** — [`Light/shikimori-m3-expressive_v0.1.css`](Light/shikimori-m3-expressive_v0.1.css) — version 0.1, available.
-- **Dark** — [`Dark/`](Dark/) — planned; not released yet.
+- **Light — v0.2 (current)** — [Open stylesheet](Light/shikimori-m3-expressive_v0.2.css) · [Raw CSS](https://raw.githubusercontent.com/ausypher/shikimori-mt3/main/Light/shikimori-m3-expressive_v0.2.css)
+- **Dark** — planned; not released yet.
+
+Version **0.2** is the current Light theme. Version 0.1 is superseded and is no longer the recommended stylesheet.
 
 ## Installation
 
@@ -15,7 +17,7 @@ You do not need to copy the entire CSS file. Shikimori can load the theme direct
 2. Paste this line into the CSS field:
 
 ```css
-@import url("https://raw.githubusercontent.com/ausypher/shikimori-mt3/main/Light/shikimori-m3-expressive_v0.1.css");
+@import url("https://raw.githubusercontent.com/ausypher/shikimori-mt3/main/Light/shikimori-m3-expressive_v0.2.css");
 ```
 
 3. Save your settings and reload Shikimori.
@@ -24,13 +26,13 @@ That's it — the theme will be loaded from this repository. You won't need to p
 
 ### Updating the theme
 
-Shikimori caches imported stylesheets. If the theme is updated but the changes do not appear, reset the imported stylesheet cache using [Shikimori's style cache reset page](https://shikimori.one/tests/reset_styles_cache) and submit the same raw CSS URL shown above.
+Shikimori may cache imported stylesheets. If an update does not appear, reset the imported stylesheet cache using [Shikimori's style cache reset page](https://shikimori.one/tests/reset_styles_cache), then reload the page.
 
 The Light stylesheet imports Roboto from Google Fonts; an internet connection may be required to load that font.
 
 ## Versioning
 
-Light and Dark variants will be maintained independently. See [CHANGELOG.md](CHANGELOG.md) for the change history.
+Light and Dark variants are maintained independently. The Light stylesheet's current release is **v0.2**. See [CHANGELOG.md](CHANGELOG.md) for the release history.
 
 ## License
 
