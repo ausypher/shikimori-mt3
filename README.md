@@ -4,10 +4,10 @@ A custom CSS theme for [Shikimori](https://shikimori.one/) inspired by **Materia
 
 ## Themes
 
-- **Light — v0.2 (current)** — [Open stylesheet](Light/shikimori-m3-expressive_v0.2.css) · [Raw CSS](https://raw.githubusercontent.com/ausypher/shikimori-mt3/main/Light/shikimori-m3-expressive_v0.2.css)
+- **Light — v0.3 (current)** — [Open stylesheet](Light/shikimori-m3-expressive_v0.3.css) · [Raw CSS](https://raw.githubusercontent.com/ausypher/shikimori-mt3/main/Light/shikimori-m3-expressive_v0.3.css)
 - **Dark** — planned; not released yet.
 
-Version **0.2** is the current Light theme. Version 0.1 is superseded and is no longer the recommended stylesheet.
+Version **0.3** is the current Light theme. Previous releases are superseded; use v0.3 for all new installations and updates.
 
 ## Installation
 
@@ -17,7 +17,7 @@ You do not need to copy the entire CSS file. Shikimori can load the theme direct
 2. Paste this line into the CSS field:
 
 ```css
-@import url("https://raw.githubusercontent.com/ausypher/shikimori-mt3/main/Light/shikimori-m3-expressive_v0.2.css");
+@import url("https://raw.githubusercontent.com/ausypher/shikimori-mt3/main/Light/shikimori-m3-expressive_v0.3.css");
 ```
 
 3. Save your settings and reload Shikimori.
@@ -32,7 +32,7 @@ The Light stylesheet imports Roboto from Google Fonts; an internet connection ma
 
 ## Versioning
 
-Light and Dark variants are maintained independently. The Light stylesheet's current release is **v0.2**. See [CHANGELOG.md](CHANGELOG.md) for the release history.
+Light and Dark variants are maintained independently. The Light stylesheet's current release is **v0.3**. See [CHANGELOG.md](CHANGELOG.md) for the release history.
 
 ## License
 
