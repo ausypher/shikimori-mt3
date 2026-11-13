@@ -449,4 +449,494 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
     transform: none !important;
   }
   a, .b-button, .b-link_button, .b-catalog_entry a img, .b-catalog_entry .image-decor, .b-catalog_entry .image-cutter, .b-spoiler_block > span, .b-add_to_list .trigger, .b-add_to_list .option, input, select, textarea { transition: none !important; }
+  /* Forum surfaces */
+  .b-forum,
+  .b-forum .topics .b-topic,
+  .p-topics_show .b-topic,
+  .b-message,
+  .b-topic .buttons .b-button,
+  .b-message .buttons .b-button,
+  .b-topic .editor,
+  .b-message .editor {
+    transition: none !important;
+  }
+}
+
+/* =====================================================================
+   19. PROFILE — LIFETIME CUT MARKERS (full-height bar dividers)
+   ===================================================================== */
+/* Full-height white cuts between 1 week / 1 month / 3 months / 6 months / 1 year.
+   Same visual rhythm as .b-stats_bar .bar .first / .second separators.
+   The cut must sit ABOVE the bar in z-order — otherwise it is only visible
+   over the title and times, not through the activity bar itself. */
+
+/* 1. Make the bar and its container the positioning context */
+.p-profiles-show .lifetime,
+.p-profiles-show .lifetime .bar,
+.p-profiles-show .lifetime .bar-container {
+  position: relative;
+}
+
+/* 2. Cuts overlay the whole bar area */
+.p-profiles-show .lifetime .cuts,
+.p-profiles-show .lifetime .bar > .cuts,
+.p-profiles-show .lifetime .bar-container > .cuts {
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: auto !important;
+  width: auto !important;
+  z-index: 40 !important;
+  pointer-events: none !important;
+  overflow: visible !important;
+}
+
+/* 3. Each cut: a 2px off-white divider spanning the full bar height.
+      Same colour as --sx-page (used by .b-stats_bar separators). */
+.p-profiles-show .lifetime .cuts .cut {
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  width: 2px !important;
+  background: var(--sx-page, #fdfcfa) !important;
+  border: 0 !important;
+  outline: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: -1px 0 0 rgba(80, 123, 156, .14),
+               1px 0 0 rgba(80, 123, 156, .14) !important;
+  opacity: 1 !important;
+  transform: translateX(-1px);
+  z-index: 41 !important;
+}
+
+/* 4. Squircle variant */
+@supports (corner-shape: squircle) {
+  .p-profiles-show .lifetime .cuts .cut {
+    corner-shape: squircle;
+  }
+}
+
+/* 5. Keep original per-period styling hooks (no visual change,
+      but useful if you want to tint cuts differently) */
+.p-profiles-show .lifetime .cut.week,
+.p-profiles-show .lifetime .cut.month,
+.p-profiles-show .lifetime .cut.month_3,
+.p-profiles-show .lifetime .cut.month_6,
+.p-profiles-show .lifetime .cut.year {
+  background: var(--sx-page, #fdfcfa) !important;
+}
+
+/* 6. If .cuts is a direct child of .lifetime (outside the bar),
+      the cuts would otherwise stretch over the title + times too.
+      In that case, clip the cuts container to the bar's vertical band. */
+.p-profiles-show .lifetime > .cuts {
+  /* Uncomment the block below if your DOM places .cuts outside .bar
+     and the white lines extend above the bar into the title area.
+  top: auto !important;
+  bottom: auto !important;
+  height: 0 !important;
+  */
+}
+
+/* =====================================================================
+   20. ACHIEVEMENTS — ROUNDED POSTERS
+   ===================================================================== */
+/* Covers in the profile and on the global achievements pages. */
+.b-achievement,
+.b-achievement .c-image,
+.b-achievement .image-decor,
+.b-achievement .image-cutter,
+.b-achievement img,
+.c-achievements .b-achievement,
+.c-achievements .b-achievement .c-image,
+.c-achievements .b-achievement .image-decor,
+.c-achievements .b-achievement .image-cutter,
+.c-achievements .b-achievement img {
+  border-radius: var(--sx-radius-md) !important;
+}
+.b-achievement,
+.b-achievement .c-image,
+.b-achievement .image-decor,
+.b-achievement .image-cutter,
+.c-achievements .b-achievement .c-image,
+.c-achievements .b-achievement .image-decor,
+.c-achievements .b-achievement .image-cutter {
+  overflow: hidden;
+}
+
+/* =====================================================================
+   21. FRANCHISES — ROUNDED POSTERS
+   ===================================================================== */
+/* Franchise catalogue cards use catalog-entry image wrappers. */
+.b-catalog_entry,
+.b-catalog_entry .image-decor,
+.b-catalog_entry .image-cutter,
+.b-catalog_entry .c-image,
+.b-catalog_entry a > img,
+.b-catalog_entry .poster,
+.b-catalog_entry .poster img,
+.cc-franchises .b-catalog_entry,
+.cc-franchises .b-catalog_entry .image-decor,
+.cc-franchises .b-catalog_entry .image-cutter,
+.cc-franchises .b-catalog_entry .c-image,
+.cc-franchises .b-catalog_entry a > img {
+  border-radius: var(--sx-radius-md) !important;
+}
+.b-catalog_entry .image-decor,
+.b-catalog_entry .image-cutter,
+.b-catalog_entry .c-image,
+.b-catalog_entry .poster,
+.cc-franchises .b-catalog_entry .image-decor,
+.cc-franchises .b-catalog_entry .image-cutter,
+.cc-franchises .b-catalog_entry .c-image {
+  overflow: hidden;
+}
+
+/* =====================================================================
+   22. PROFILE SETTINGS — ROBOTO TYPOGRAPHY
+   ===================================================================== */
+.p-profiles-edit,
+.p-profiles-edit .l-content,
+.p-profiles-edit .block,
+.p-profiles-edit form,
+.p-profiles-edit fieldset,
+.p-profiles-edit legend,
+.p-profiles-edit label,
+.p-profiles-edit .field,
+.p-profiles-edit .hint,
+.p-profiles-edit .help,
+.p-profiles-edit .notice,
+.p-profiles-edit .subheadline,
+.p-profiles-edit .headline,
+.p-profiles-edit h1,
+.p-profiles-edit h2,
+.p-profiles-edit h3,
+.p-profiles-edit h4,
+.p-profiles-edit p,
+.p-profiles-edit li,
+.p-profiles-edit td,
+.p-profiles-edit th,
+.p-profiles-edit a,
+.p-profiles-edit button,
+.p-profiles-edit input,
+.p-profiles-edit select,
+.p-profiles-edit textarea {
+  font-family: "Roboto", "Helvetica Neue", Arial, sans-serif !important;
+  font-variation-settings: normal;
+}
+
+/* =====================================================================
+   23. RATING STARS — BRIGHT, ORIGINAL GOLD HOVER
+   ===================================================================== */
+/* Keep the source theme's gold, but remove the washed-out overlay look. */
+.b-rate .stars-container .stars.hover,
+.b-rate .stars-container:hover .stars.hover,
+.b-rate .stars-container .hoverable-trigger:hover ~ .stars.hover {
+  color: #c28b45 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  filter: brightness(1.28) saturate(1.4) contrast(1.08) !important;
+  mix-blend-mode: normal !important;
+  text-shadow: 0 0 1px rgba(194, 139, 69, .55), 0 0 4px rgba(194, 139, 69, .28) !important;
+  transition: filter .12s ease, opacity .12s ease;
+}
+.b-rate .stars-container .stars.score,
+.b-rate .stars-container .stars.background {
+  filter: none !important;
+  mix-blend-mode: normal !important;
+}
+
+/* =====================================================================
+   24. FORUM — MATERIAL EXPRESSIVE
+   ===================================================================== */
+/* Shikimori forum pages: forum list (.p-forums), topic view (.p-topics_show),
+   messages (.b-message), forum cards (.b-forum). Material 3 Expressive
+   surfaces, radii, elevation and motion — same tokens as the rest of the theme. */
+
+/* ---------- 24.1 Forum list cards ---------- */
+.b-forum,
+.p-forums .b-forum,
+.p-forum .b-forum {
+  border-radius: var(--sx-radius-md);
+  background: var(--sx-surface-raised);
+  border: 1px solid var(--sx-border);
+  box-shadow: var(--sx-elev-1);
+  transition: box-shadow .2s var(--sx-ease-expressive),
+              background-color .2s var(--sx-ease-expressive);
+}
+
+.b-forum .header,
+.b-forum .c-forum-header {
+  border-radius: var(--sx-radius-md) var(--sx-radius-md) 0 0;
+  background: var(--sx-surface-soft);
+  border-bottom: 1px solid var(--sx-border);
+}
+
+.b-forum .name a,
+.b-forum .title a {
+  color: var(--sx-text);
+  font-weight: 600;
+  letter-spacing: 0;
+  transition: color var(--sx-motion-fast);
+}
+.b-forum .name a:hover,
+.b-forum .title a:hover {
+  color: var(--sx-primary);
+}
+
+.b-forum .description,
+.b-forum .info,
+.b-forum .stats {
+  color: var(--sx-text-secondary);
+}
+
+/* ---------- 24.2 Topic cards in forum list ---------- */
+.b-forum .topics .b-topic,
+.p-forum .b-topic,
+.p-forums .b-topic {
+  border-radius: var(--sx-radius-md);
+  border: 1px solid var(--sx-border);
+  border-top-color: var(--sx-border);
+  background: var(--sx-surface-raised);
+  box-shadow: var(--sx-elev-1);
+  transition: box-shadow .2s var(--sx-ease-expressive),
+              background-color .2s var(--sx-ease-expressive);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .b-forum .topics .b-topic:hover,
+  .p-forum .b-topic:hover,
+  .p-forums .b-topic:hover {
+    background: var(--sx-surface-hover);
+    box-shadow: var(--sx-elev-2);
+  }
+}
+
+/* ---------- 24.3 Topic view page ---------- */
+.p-topics_show .b-topic,
+.p-topics .b-topic {
+  border-radius: var(--sx-radius-lg);
+  border: 1px solid var(--sx-border);
+  border-top-color: var(--sx-border);
+  background: var(--sx-surface-raised);
+  box-shadow: var(--sx-elev-2);
+  overflow: hidden;
+}
+
+.p-topics_show .b-topic > .inner,
+.p-topics_show .b-topic > .inner > header {
+  border-radius: inherit;
+}
+
+/* ---------- 24.4 Messages inside topics ---------- */
+.b-message {
+  border-radius: var(--sx-radius-md);
+  border: 1px solid var(--sx-border);
+  border-top-color: var(--sx-border);
+  background: var(--sx-surface-raised);
+  box-shadow: var(--sx-elev-1);
+  transition: box-shadow .2s var(--sx-ease-expressive),
+              background-color .2s var(--sx-ease-expressive);
+}
+
+.b-message:hover {
+  box-shadow: var(--sx-elev-2);
+}
+
+.b-message .name-date a.name {
+  color: var(--sx-primary-strong);
+  font-weight: 600;
+}
+
+.b-message .body,
+.b-topic .body {
+  color: #3a4955;
+}
+
+/* Nested quotes inside messages — same palette as .b-comment .b-quote */
+.b-message .b-quote {
+  --q-bg: #d7e5f2;
+  --q-fg: #172b3c;
+  --q-accent: #3b7db0;
+  --q-name: #1b5582;
+  --q-ring: rgba(60, 111, 151, .10);
+  color: var(--q-fg) !important;
+  background: var(--q-bg) !important;
+  border: 0 !important;
+  border-radius: 14px !important;
+  font-style: normal;
+  padding: 8px 12px 8px 17px !important;
+  margin: 7px 0 8px 5px;
+  box-shadow: inset 4px 0 0 var(--q-accent),
+              inset 0 0 0 1px var(--q-ring),
+              0 1px 2px rgba(35, 52, 68, .08);
+}
+.b-message .b-quote .quoteable {
+  color: var(--q-name) !important;
+  font-weight: 600;
+}
+
+/* ---------- 24.5 Status badges / markers ---------- */
+.b-topic .status,
+.b-topic .markers .b-new_marker,
+.b-topic .markers .b-offtopic_marker,
+.b-message .b-new_marker,
+.b-message .b-offtopic_marker {
+  border-radius: 9px;
+  box-shadow: 0 1px 2px rgba(35, 52, 68, .12);
+}
+
+.b-topic .status-icon,
+.b-topic .b-status {
+  border-radius: var(--sx-radius-sm);
+}
+
+/* ---------- 24.6 Action buttons / options ---------- */
+.b-topic .options .option,
+.b-topic .actions .action,
+.b-message .options .option,
+.b-message .actions .action,
+.b-topic .buttons .b-button,
+.b-topic .buttons .b-link_button,
+.b-message .buttons .b-button,
+.b-message .buttons .b-link_button {
+  border-radius: var(--sx-radius-sm);
+  transition: background-color .18s var(--sx-ease-expressive),
+              box-shadow .2s var(--sx-ease-expressive),
+              filter .2s var(--sx-ease-expressive);
+}
+
+.b-topic .buttons .b-button,
+.b-topic .buttons .b-link_button,
+.b-message .buttons .b-button,
+.b-message .buttons .b-link_button {
+  box-shadow: var(--sx-elev-1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .b-topic .options .option:hover,
+  .b-message .options .option:hover,
+  .b-topic .actions .action:hover,
+  .b-message .actions .action:hover {
+    background: var(--sx-surface-hover);
+  }
+  .b-topic .buttons .b-button:hover,
+  .b-topic .buttons .b-link_button:hover,
+  .b-message .buttons .b-button:hover,
+  .b-message .buttons .b-link_button:hover {
+    box-shadow: var(--sx-elev-2);
+    filter: brightness(1.04);
+  }
+}
+
+/* ---------- 24.7 Editor (reply / new topic) ---------- */
+.b-topic .editor,
+.b-message .editor,
+.p-topics_show .editor {
+  border-radius: var(--sx-radius-md);
+  border: 1px solid var(--sx-border);
+  box-shadow: var(--sx-elev-1);
+  overflow: hidden;
+  background: var(--sx-surface-raised);
+}
+
+.b-topic .editor .toolbar,
+.b-message .editor .toolbar,
+.p-topics_show .editor .toolbar {
+  border-radius: var(--sx-radius-md) var(--sx-radius-md) 0 0;
+  border-bottom: 1px solid var(--sx-border);
+  background: var(--sx-surface-soft);
+}
+
+.b-topic .editor textarea,
+.b-message .editor textarea,
+.p-topics_show .editor textarea {
+  border-radius: 0 0 var(--sx-radius-md) var(--sx-radius-md);
+  border: 0;
+  box-shadow: none;
+}
+
+/* ---------- 24.8 Pagination (forum uses same component) ---------- */
+.b-forum .pagination a,
+.p-topics_show .pagination a,
+.b-topic .pagination a {
+  border-radius: 10px;
+  transition: background-color .18s var(--sx-ease-expressive);
+}
+
+.b-forum .pagination a:hover,
+.p-topics_show .pagination a:hover,
+.b-topic .pagination a:hover {
+  background: var(--sx-surface-hover);
+}
+
+/* ---------- 24.9 Search & new-topic button ---------- */
+.p-forums .search input,
+.b-forum .search input {
+  border-radius: var(--sx-radius-sm);
+}
+
+.p-forums .new-topic .b-button,
+.p-forums .b-button.new-topic,
+.p-topics_show .new-reply .b-button {
+  border-radius: var(--sx-radius-sm);
+  box-shadow: var(--sx-elev-1);
+  transition: box-shadow .2s var(--sx-ease-expressive),
+              filter .2s var(--sx-ease-expressive);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .p-forums .new-topic .b-button:hover,
+  .p-topics_show .new-reply .b-button:hover {
+    box-shadow: var(--sx-elev-2);
+    filter: brightness(1.04);
+  }
+}
+
+/* ---------- 24.10 Topic tags & breadcrumbs ---------- */
+.b-topic .tags .b-tag,
+.b-forum .tags .b-tag {
+  border-radius: 9px;
+  transition: background-color .18s var(--sx-ease-expressive);
+}
+
+.b-topic .breadcrumbs a,
+.p-topics_show .breadcrumbs a {
+  border-radius: var(--sx-radius-xs);
+  transition: background-color .18s var(--sx-ease-expressive);
+}
+
+.b-topic .breadcrumbs a:hover,
+.p-topics_show .breadcrumbs a:hover {
+  background: var(--sx-surface-hover);
+}
+
+/* ---------- 24.11 Headlines on forum pages ---------- */
+.p-forums .headline,
+.p-forum .headline,
+.p-topics_show .headline {
+  border-radius: var(--sx-radius-headline);
+}
+
+/* ---------- 24.12 Squircle for forum surfaces ---------- */
+@supports (corner-shape: squircle) {
+  .b-forum,
+  .b-forum .topics .b-topic,
+  .p-forum .b-topic,
+  .p-forums .b-topic,
+  .p-topics_show .b-topic,
+  .b-message,
+  .b-message .b-quote,
+  .b-topic .buttons .b-button,
+  .b-message .buttons .b-button,
+  .b-topic .editor,
+  .b-message .editor,
+  .b-topic .status,
+  .b-forum .tags .b-tag {
+    corner-shape: squircle;
+  }
 }
