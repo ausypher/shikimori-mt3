@@ -51,12 +51,6 @@
   --sx-radius-lg: 20px;
   --sx-radius-headline: 8px;
 
-  /* Dropdown menu text: soft charcoal, matches the dark header */
-  --sx-menu-text: #3a3a3a;
-  --sx-menu-text-hover: #1f1f1f;
-  --sx-menu-legend: #7b7b7b;
-  --sx-menu-hover-bg: #ebeae6;
-
   /* Telegram-style spoiler dust (r, g, b) */
   --sx-dust: 98, 118, 140;
 
@@ -151,10 +145,34 @@ a:hover { color: var(--sx-primary-hover); text-decoration-color: currentColor; }
 @media (hover: hover) and (pointer: fine) { .l-top_menu-v2 .menu-icon:hover { color: #fff !important; background-color: var(--sx-header-hover) !important; } }
 .l-top_menu-v2 .menu-icon[data-count]::after { color: #343434; background: #e1edf5; border-color: var(--sx-header); }
 
-.l-top_menu-v2 .submenu, .l-top_menu-v2 .submenu-inner, .l-top_menu-v2 .submenu > .heading { color: var(--sx-menu-text) !important; background: #f9f8f5 !important; border-color: #d5dde5; border-radius: var(--sx-radius-md); box-shadow: var(--sx-elev-3); }
-.l-top_menu-v2 .submenu a, .l-top_menu-v2 .submenu a:link, .l-top_menu-v2 .submenu a:visited, .l-top_menu-v2 .submenu span { color: var(--sx-menu-text) !important; text-decoration: none; }
-.l-top_menu-v2 .submenu .legend { color: var(--sx-menu-legend) !important; font-weight: 500; letter-spacing: .02em; }
-.l-top_menu-v2 .submenu a:hover, .l-top_menu-v2 .submenu a:focus, .l-top_menu-v2 .submenu a.active, .l-top_menu-v2 .submenu a:active { color: var(--sx-menu-text-hover) !important; background: var(--sx-menu-hover-bg) !important; }
+/* --- ВОЗВРАЩЕННЫЕ ВЫПАДАЮЩИЕ МЕНЮ ИЗ ВТОРОГО КОДА --- */
+.l-top_menu-v2 .submenu,
+.l-top_menu-v2 .submenu-inner,
+.l-top_menu-v2 .submenu > .heading {
+  color: #293846 !important;
+  background: #f9f8f5 !important;
+  border-color: #d5dde5;
+  border-radius: var(--sx-radius-md);
+  box-shadow: var(--sx-elev-3);
+}
+
+.l-top_menu-v2 .submenu a,
+.l-top_menu-v2 .submenu a:link,
+.l-top_menu-v2 .submenu a:visited,
+.l-top_menu-v2 .submenu span {
+  color: #385d7c !important;
+  text-decoration: none;
+}
+
+.l-top_menu-v2 .submenu a:hover,
+.l-top_menu-v2 .submenu a:focus,
+.l-top_menu-v2 .submenu a.active,
+.l-top_menu-v2 .submenu a:active {
+  color: #244d70 !important;
+  background: #e4e9ee !important;
+}
+/* --------------------------------------------------- */
+
 .l-top_menu-v2 .global-search input { color: #2b3d4e !important; background: #f6f5f2 !important; border: 1px solid rgba(255, 255, 255, .20); border-radius: 18px; transition: background var(--sx-motion-fast), border-color var(--sx-motion-fast), box-shadow var(--sx-motion-fast); }
 .l-top_menu-v2 .global-search input:focus { background: #fefefd !important; border-color: #9dbbd4; box-shadow: 0 0 0 3px rgba(157, 187, 212, .28), var(--sx-elev-1); }
 .l-top_menu-v2 .global-search .search-results { color: #293b4d; background: #faf9f7; border-color: var(--sx-border); border-radius: var(--sx-radius-md); box-shadow: var(--sx-shadow-menu); }
@@ -287,26 +305,32 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
    14. PROFILE — ACTIVITY GRAPH
    ===================================================================== */
 :root { --sx-spring: cubic-bezier(.34, 1.45, .5, 1); }
-.activity .graph.vertical .line .bar-container { border-radius: 9px 9px 0 0; background: linear-gradient(180deg, rgba(80, 123, 156, 0) 0%, rgba(80, 123, 156, .07) 100%); }
-.activity .graph.vertical .line .bar { transform-origin: 50% 100%; border-radius: 8px 8px 3px 3px; background: linear-gradient(180deg, #9ad0e6 0%, #6aaed6 55%, #5b9bd0 100%); box-shadow: 0 2px 6px rgba(70, 120, 170, .22), inset 0 1px 0 rgba(255, 255, 255, .5); animation: sx-bar-rise .75s var(--sx-spring) backwards, sx-bar-glow 3.4s ease-in-out 1s infinite; transition: filter .2s var(--sx-ease-expressive), box-shadow .2s var(--sx-ease-expressive), transform .25s var(--sx-spring); }
-.activity .graph.vertical .line .bar.s1 { background: linear-gradient(180deg, #c2e0ef 0%, #98c6e2 60%, #86b8da 100%); }
-.activity .graph.vertical .line .bar.s2 { background: linear-gradient(180deg, #9ad0e6 0%, #6aaed6 55%, #5b9bd0 100%); }
-.activity .graph.vertical .line .bar.s3 { background: linear-gradient(180deg, #8dc0ee 0%, #5f9ddb 55%, #4f88cc 100%); }
-.activity .graph.vertical .line .bar.s4 { background: linear-gradient(180deg, #a9bdf2 0%, #7c92e0 55%, #6a7fd2 100%); }
-.activity .graph.vertical .line .bar.s5 { background: linear-gradient(180deg, #c0aaf0 0%, #9a82df 55%, #856ccf 100%); }
-.activity .graph.vertical .line .bar .value { font-weight: 500; text-shadow: 0 1px 1px rgba(20, 50, 80, .28); }
-.activity .graph.vertical .line .x_label { color: var(--sx-text-muted); }
-.activity .graph.vertical .line .bar:hover { animation: none; transform: scaleY(1.04); filter: brightness(1.07) saturate(1.2); box-shadow: 0 5px 14px rgba(70, 120, 170, .38), inset 0 1px 0 rgba(255, 255, 255, .6); }
-.activity .graph.vertical .line:nth-child(6n+2) .bar { animation-delay: .03s, 1.15s; }
-.activity .graph.vertical .line:nth-child(6n+3) .bar { animation-delay: .06s, 1.30s; }
-.activity .graph.vertical .line:nth-child(6n+4) .bar { animation-delay: .09s, 1.45s; }
-.activity .graph.vertical .line:nth-child(6n+5) .bar { animation-delay: .12s, 1.60s; }
-.activity .graph.vertical .line:nth-child(6n+6) .bar { animation-delay: .15s, 1.75s; }
-@supports (animation-delay: calc(sibling-index() * 1ms)) {
-  .activity .graph.vertical .line .bar { animation-delay: calc(sibling-index() * 22ms), calc(900ms + sibling-index() * 90ms); }
+.activity .graph.vertical .line .bar-container {
+  border-radius: 9px 9px 0 0;
+  background: linear-gradient(180deg, rgba(80, 123, 156, 0) 0%, rgba(80, 123, 156, .07) 100%);
 }
-@keyframes sx-bar-rise { from { transform: scaleY(0); opacity: 0; } to { transform: scaleY(1); opacity: 1; } }
-@keyframes sx-bar-glow { 0%, 100% { filter: brightness(1) saturate(1); } 50% { filter: brightness(1.09) saturate(1.15); } }
+.activity .graph.vertical .line .bar {
+  box-sizing: content-box;
+  transform: translateY(1px);
+  transform-origin: center bottom;
+  background: linear-gradient(180deg, #82b8c2 0%, #568ca9 55%, #557ba5 100%);
+  border-radius: 4px 4px 1px 1px;
+  animation: sx-activity 1.5s linear infinite both;
+}
+.activity .graph.vertical .line .bar:hover {
+  animation-name: none;
+  transform: none;
+  filter: brightness(1.08) saturate(1.08);
+}
+.activity .graph.vertical .line:nth-of-type(6n+2) .bar { animation-delay: -.25s; }
+.activity .graph.vertical .line:nth-of-type(6n+4) .bar { animation-delay: -.5s; }
+.activity .graph.vertical .line:nth-of-type(6n+3) .bar { animation-delay: -.75s; }
+.activity .graph.vertical .line:nth-of-type(6n+6) .bar { animation-delay: -1s; }
+.activity .graph.vertical .line:nth-of-type(6n+5) .bar { animation-delay: -1.25s; }
+@keyframes sx-activity {
+  0%, 100% { transform: translateY(1px); }
+  50% { transform: translateY(7px); }
+}
 
 /* =====================================================================
    15. LIST STATUS DROPDOWN
@@ -330,7 +354,7 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
 ::-webkit-scrollbar-corner { background: transparent; }
 
 /* =====================================================================
-   16b. "SCROLL TO TOP" EDGE BUTTON (left side) — широкая полоска без текста
+   16b. "SCROLL TO TOP" EDGE BUTTON (left side)
    ===================================================================== */
 
 .b-to-top {
@@ -339,8 +363,8 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
 }
 
 .b-to-top .slide {
-  width: 60px !important;              /* в 3 раза шире (было 20px) */
-  border-radius: 0 !important;         /* без закруглений */
+  width: 60px !important;
+  border-radius: 0 !important;
   background: linear-gradient(90deg, rgba(80, 123, 156, .24) 0%, rgba(80, 123, 156, .09) 100%) !important;
   box-shadow: inset 0 0 0 1.5px rgba(80, 123, 156, .38),
               6px 0 20px rgba(35, 52, 68, .10) !important;
@@ -349,23 +373,19 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
   overflow: hidden;
 }
 
-/* Текст "Наверх" убран */
 .b-to-top .slide::after {
   content: none !important;
   display: none !important;
 }
 
-/* Показ фона при наведении */
 .b-to-top:hover .slide {
   opacity: 1 !important;
 }
 
-/* Анимация стрелки */
 .b-to-top:hover .arrow {
   animation: sx-arrow-nudge 1.1s ease-in-out infinite;
 }
 
-/* Эффект при клике */
 .b-to-top:active .slide {
   background: linear-gradient(90deg, rgba(80, 123, 156, .34) 0%, rgba(80, 123, 156, .14) 100%) !important;
 }
@@ -465,19 +485,12 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
 /* =====================================================================
    19. PROFILE — LIFETIME CUT MARKERS (full-height bar dividers)
    ===================================================================== */
-/* Full-height white cuts between 1 week / 1 month / 3 months / 6 months / 1 year.
-   Same visual rhythm as .b-stats_bar .bar .first / .second separators.
-   The cut must sit ABOVE the bar in z-order — otherwise it is only visible
-   over the title and times, not through the activity bar itself. */
-
-/* 1. Make the bar and its container the positioning context */
 .p-profiles-show .lifetime,
 .p-profiles-show .lifetime .bar,
 .p-profiles-show .lifetime .bar-container {
   position: relative;
 }
 
-/* 2. Cuts overlay the whole bar area */
 .p-profiles-show .lifetime .cuts,
 .p-profiles-show .lifetime .bar > .cuts,
 .p-profiles-show .lifetime .bar-container > .cuts {
@@ -493,8 +506,6 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
   overflow: visible !important;
 }
 
-/* 3. Each cut: a 2px off-white divider spanning the full bar height.
-      Same colour as --sx-page (used by .b-stats_bar separators). */
 .p-profiles-show .lifetime .cuts .cut {
   position: absolute !important;
   top: 0 !important;
@@ -513,15 +524,12 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
   z-index: 41 !important;
 }
 
-/* 4. Squircle variant */
 @supports (corner-shape: squircle) {
   .p-profiles-show .lifetime .cuts .cut {
     corner-shape: squircle;
   }
 }
 
-/* 5. Keep original per-period styling hooks (no visual change,
-      but useful if you want to tint cuts differently) */
 .p-profiles-show .lifetime .cut.week,
 .p-profiles-show .lifetime .cut.month,
 .p-profiles-show .lifetime .cut.month_3,
@@ -530,22 +538,9 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
   background: var(--sx-page, #fdfcfa) !important;
 }
 
-/* 6. If .cuts is a direct child of .lifetime (outside the bar),
-      the cuts would otherwise stretch over the title + times too.
-      In that case, clip the cuts container to the bar's vertical band. */
-.p-profiles-show .lifetime > .cuts {
-  /* Uncomment the block below if your DOM places .cuts outside .bar
-     and the white lines extend above the bar into the title area.
-  top: auto !important;
-  bottom: auto !important;
-  height: 0 !important;
-  */
-}
-
 /* =====================================================================
    20. ACHIEVEMENTS — ROUNDED POSTERS
    ===================================================================== */
-/* Covers in the profile and on the global achievements pages. */
 .b-achievement,
 .b-achievement .c-image,
 .b-achievement .image-decor,
@@ -571,7 +566,6 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
 /* =====================================================================
    21. FRANCHISES — ROUNDED POSTERS
    ===================================================================== */
-/* Franchise catalogue cards use catalog-entry image wrappers. */
 .b-catalog_entry,
 .b-catalog_entry .image-decor,
 .b-catalog_entry .image-cutter,
@@ -632,7 +626,6 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
 /* =====================================================================
    23. RATING STARS — BRIGHT, ORIGINAL GOLD HOVER
    ===================================================================== */
-/* Keep the source theme's gold, but remove the washed-out overlay look. */
 .b-rate .stars-container .stars.hover,
 .b-rate .stars-container:hover .stars.hover,
 .b-rate .stars-container .hoverable-trigger:hover ~ .stars.hover {
@@ -653,9 +646,6 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
 /* =====================================================================
    24. FORUM — MATERIAL EXPRESSIVE
    ===================================================================== */
-/* Shikimori forum pages: forum list (.p-forums), topic view (.p-topics_show),
-   messages (.b-message), forum cards (.b-forum). Material 3 Expressive
-   surfaces, radii, elevation and motion — same tokens as the rest of the theme. */
 
 /* ---------- 24.1 Forum list cards ---------- */
 .b-forum,
