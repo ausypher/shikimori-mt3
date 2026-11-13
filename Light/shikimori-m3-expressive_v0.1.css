@@ -469,17 +469,6 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
     transform: none !important;
   }
   a, .b-button, .b-link_button, .b-catalog_entry a img, .b-catalog_entry .image-decor, .b-catalog_entry .image-cutter, .b-spoiler_block > span, .b-add_to_list .trigger, .b-add_to_list .option, input, select, textarea { transition: none !important; }
-  /* Forum surfaces */
-  .b-forum,
-  .b-forum .topics .b-topic,
-  .p-topics_show .b-topic,
-  .b-message,
-  .b-topic .buttons .b-button,
-  .b-message .buttons .b-button,
-  .b-topic .editor,
-  .b-message .editor {
-    transition: none !important;
-  }
 }
 
 /* =====================================================================
@@ -644,289 +633,74 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
 }
 
 /* =====================================================================
-   24. FORUM — MATERIAL EXPRESSIVE
+   24. FORUM — NATIVE FLAT LAYOUT (REMOVED CARDS/OVERFLOWS)
    ===================================================================== */
+/* Возвращаем оригинальный плоский дизайн форума. Убираем "облачка",
+   фоны, рамки и тени у сообщений и топиков. Применяем только скругления
+   к кнопкам, тегам и вложениям, чтобы они сочетались с общей темой. */
 
-/* ---------- 24.1 Forum list cards ---------- */
+/* Убираем лишнее выделение у карточек топиков */
 .b-forum,
 .p-forums .b-forum,
-.p-forum .b-forum {
-  border-radius: var(--sx-radius-md);
-  background: var(--sx-surface-raised);
-  border: 1px solid var(--sx-border);
-  box-shadow: var(--sx-elev-1);
-  transition: box-shadow .2s var(--sx-ease-expressive),
-              background-color .2s var(--sx-ease-expressive);
-}
-
-.b-forum .header,
-.b-forum .c-forum-header {
-  border-radius: var(--sx-radius-md) var(--sx-radius-md) 0 0;
-  background: var(--sx-surface-soft);
-  border-bottom: 1px solid var(--sx-border);
-}
-
-.b-forum .name a,
-.b-forum .title a {
-  color: var(--sx-text);
-  font-weight: 600;
-  letter-spacing: 0;
-  transition: color var(--sx-motion-fast);
-}
-.b-forum .name a:hover,
-.b-forum .title a:hover {
-  color: var(--sx-primary);
-}
-
-.b-forum .description,
-.b-forum .info,
-.b-forum .stats {
-  color: var(--sx-text-secondary);
-}
-
-/* ---------- 24.2 Topic cards in forum list ---------- */
+.p-forum .b-forum,
 .b-forum .topics .b-topic,
 .p-forum .b-topic,
-.p-forums .b-topic {
-  border-radius: var(--sx-radius-md);
-  border: 1px solid var(--sx-border);
-  border-top-color: var(--sx-border);
-  background: var(--sx-surface-raised);
-  box-shadow: var(--sx-elev-1);
-  transition: box-shadow .2s var(--sx-ease-expressive),
-              background-color .2s var(--sx-ease-expressive);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .b-forum .topics .b-topic:hover,
-  .p-forum .b-topic:hover,
-  .p-forums .b-topic:hover {
-    background: var(--sx-surface-hover);
-    box-shadow: var(--sx-elev-2);
-  }
-}
-
-/* ---------- 24.3 Topic view page ---------- */
+.p-forums .b-topic,
 .p-topics_show .b-topic,
-.p-topics .b-topic {
-  border-radius: var(--sx-radius-lg);
-  border: 1px solid var(--sx-border);
-  border-top-color: var(--sx-border);
-  background: var(--sx-surface-raised);
-  box-shadow: var(--sx-elev-2);
-  overflow: hidden;
-}
-
-.p-topics_show .b-topic > .inner,
-.p-topics_show .b-topic > .inner > header {
-  border-radius: inherit;
-}
-
-/* ---------- 24.4 Messages inside topics ---------- */
 .b-message {
-  border-radius: var(--sx-radius-md);
-  border: 1px solid var(--sx-border);
-  border-top-color: var(--sx-border);
-  background: var(--sx-surface-raised);
-  box-shadow: var(--sx-elev-1);
-  transition: box-shadow .2s var(--sx-ease-expressive),
-              background-color .2s var(--sx-ease-expressive);
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
 }
 
-.b-message:hover {
-  box-shadow: var(--sx-elev-2);
-}
+/* Оставляем оригинальные границы-разделители (снизу/сверху) */
+.b-topic { border-top: 1px solid var(--sx-border-strong) !important; border-radius: 0 !important; background: transparent !important; }
+.b-comment { border-top: 1px solid var(--sx-border-strong) !important; border-radius: 0 !important; background: transparent !important; }
 
+/* Заголовки и ссылки в форуме */
+.b-forum .name a,
+.b-forum .title a,
 .b-message .name-date a.name {
-  color: var(--sx-primary-strong);
-  font-weight: 600;
+  color: var(--sx-primary-strong) !important;
+  font-weight: 600 !important;
 }
 
-.b-message .body,
-.b-topic .body {
-  color: #3a4955;
-}
-
-/* Nested quotes inside messages — same palette as .b-comment .b-quote */
+/* Красивые цитаты внутри форума (сохраняем стиль из блока 07) */
 .b-message .b-quote {
-  --q-bg: #d7e5f2;
-  --q-fg: #172b3c;
-  --q-accent: #3b7db0;
-  --q-name: #1b5582;
-  --q-ring: rgba(60, 111, 151, .10);
-  color: var(--q-fg) !important;
-  background: var(--q-bg) !important;
-  border: 0 !important;
   border-radius: 14px !important;
-  font-style: normal;
-  padding: 8px 12px 8px 17px !important;
-  margin: 7px 0 8px 5px;
-  box-shadow: inset 4px 0 0 var(--q-accent),
-              inset 0 0 0 1px var(--q-ring),
-              0 1px 2px rgba(35, 52, 68, .08);
-}
-.b-message .b-quote .quoteable {
-  color: var(--q-name) !important;
-  font-weight: 600;
 }
 
-/* ---------- 24.5 Status badges / markers ---------- */
-.b-topic .status,
-.b-topic .markers .b-new_marker,
-.b-topic .markers .b-offtopic_marker,
-.b-message .b-new_marker,
-.b-message .b-offtopic_marker {
-  border-radius: 9px;
-  box-shadow: 0 1px 2px rgba(35, 52, 68, .12);
-}
-
-.b-topic .status-icon,
-.b-topic .b-status {
-  border-radius: var(--sx-radius-sm);
-}
-
-/* ---------- 24.6 Action buttons / options ---------- */
+/* Кнопки и вкладки */
+.b-topic .buttons .b-button,
+.b-message .buttons .b-button,
 .b-topic .options .option,
-.b-topic .actions .action,
-.b-message .options .option,
-.b-message .actions .action,
-.b-topic .buttons .b-button,
-.b-topic .buttons .b-link_button,
-.b-message .buttons .b-button,
-.b-message .buttons .b-link_button {
-  border-radius: var(--sx-radius-sm);
-  transition: background-color .18s var(--sx-ease-expressive),
-              box-shadow .2s var(--sx-ease-expressive),
-              filter .2s var(--sx-ease-expressive);
+.b-message .options .option {
+  border-radius: var(--sx-radius-sm) !important;
 }
 
-.b-topic .buttons .b-button,
-.b-topic .buttons .b-link_button,
-.b-message .buttons .b-button,
-.b-message .buttons .b-link_button {
-  box-shadow: var(--sx-elev-1);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .b-topic .options .option:hover,
-  .b-message .options .option:hover,
-  .b-topic .actions .action:hover,
-  .b-message .actions .action:hover {
-    background: var(--sx-surface-hover);
-  }
-  .b-topic .buttons .b-button:hover,
-  .b-topic .buttons .b-link_button:hover,
-  .b-message .buttons .b-button:hover,
-  .b-message .buttons .b-link_button:hover {
-    box-shadow: var(--sx-elev-2);
-    filter: brightness(1.04);
-  }
-}
-
-/* ---------- 24.7 Editor (reply / new topic) ---------- */
+/* Область редактора (не выходит за края) */
 .b-topic .editor,
 .b-message .editor,
 .p-topics_show .editor {
-  border-radius: var(--sx-radius-md);
-  border: 1px solid var(--sx-border);
-  box-shadow: var(--sx-elev-1);
-  overflow: hidden;
-  background: var(--sx-surface-raised);
+  border-radius: var(--sx-radius-md) !important;
+  border: 1px solid var(--sx-border) !important;
+  box-shadow: var(--sx-elev-1) !important;
+  overflow: hidden !important;
 }
 
 .b-topic .editor .toolbar,
 .b-message .editor .toolbar,
 .p-topics_show .editor .toolbar {
-  border-radius: var(--sx-radius-md) var(--sx-radius-md) 0 0;
-  border-bottom: 1px solid var(--sx-border);
-  background: var(--sx-surface-soft);
+  border-radius: var(--sx-radius-md) var(--sx-radius-md) 0 0 !important;
+  background: var(--sx-surface-soft) !important;
+  border-bottom: 1px solid var(--sx-border) !important;
 }
 
 .b-topic .editor textarea,
 .b-message .editor textarea,
 .p-topics_show .editor textarea {
-  border-radius: 0 0 var(--sx-radius-md) var(--sx-radius-md);
-  border: 0;
-  box-shadow: none;
-}
-
-/* ---------- 24.8 Pagination (forum uses same component) ---------- */
-.b-forum .pagination a,
-.p-topics_show .pagination a,
-.b-topic .pagination a {
-  border-radius: 10px;
-  transition: background-color .18s var(--sx-ease-expressive);
-}
-
-.b-forum .pagination a:hover,
-.p-topics_show .pagination a:hover,
-.b-topic .pagination a:hover {
-  background: var(--sx-surface-hover);
-}
-
-/* ---------- 24.9 Search & new-topic button ---------- */
-.p-forums .search input,
-.b-forum .search input {
-  border-radius: var(--sx-radius-sm);
-}
-
-.p-forums .new-topic .b-button,
-.p-forums .b-button.new-topic,
-.p-topics_show .new-reply .b-button {
-  border-radius: var(--sx-radius-sm);
-  box-shadow: var(--sx-elev-1);
-  transition: box-shadow .2s var(--sx-ease-expressive),
-              filter .2s var(--sx-ease-expressive);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .p-forums .new-topic .b-button:hover,
-  .p-topics_show .new-reply .b-button:hover {
-    box-shadow: var(--sx-elev-2);
-    filter: brightness(1.04);
-  }
-}
-
-/* ---------- 24.10 Topic tags & breadcrumbs ---------- */
-.b-topic .tags .b-tag,
-.b-forum .tags .b-tag {
-  border-radius: 9px;
-  transition: background-color .18s var(--sx-ease-expressive);
-}
-
-.b-topic .breadcrumbs a,
-.p-topics_show .breadcrumbs a {
-  border-radius: var(--sx-radius-xs);
-  transition: background-color .18s var(--sx-ease-expressive);
-}
-
-.b-topic .breadcrumbs a:hover,
-.p-topics_show .breadcrumbs a:hover {
-  background: var(--sx-surface-hover);
-}
-
-/* ---------- 24.11 Headlines on forum pages ---------- */
-.p-forums .headline,
-.p-forum .headline,
-.p-topics_show .headline {
-  border-radius: var(--sx-radius-headline);
-}
-
-/* ---------- 24.12 Squircle for forum surfaces ---------- */
-@supports (corner-shape: squircle) {
-  .b-forum,
-  .b-forum .topics .b-topic,
-  .p-forum .b-topic,
-  .p-forums .b-topic,
-  .p-topics_show .b-topic,
-  .b-message,
-  .b-message .b-quote,
-  .b-topic .buttons .b-button,
-  .b-message .buttons .b-button,
-  .b-topic .editor,
-  .b-message .editor,
-  .b-topic .status,
-  .b-forum .tags .b-tag {
-    corner-shape: squircle;
-  }
+  border-radius: 0 0 var(--sx-radius-md) var(--sx-radius-md) !important;
+  border: none !important;
+  box-shadow: none !important;
 }
