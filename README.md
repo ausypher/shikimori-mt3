@@ -1,43 +1,44 @@
 # Shikimori — Material Design 3 Expressive
 
-A custom CSS theme for [Shikimori](https://shikimori.one/) inspired by **Material Design 3 Expressive**. It brings an expressive visual language to the Shikimori interface through a considered color palette, rounded shapes, tonal surfaces, typography, and carefully styled interface elements.
+Пользовательская CSS-тема для [Shikimori](https://shikimori.one/), созданная под влиянием **Material Design 3 Expressive**. Тема обновляет визуальное оформление сайта: цветовую палитру, поверхности, скругления, типографику и элементы интерфейса, сохраняя привычную структуру Shikimori.
 
-## Themes
+## Темы
 
-- **Light — v0.3 (current)** — [Open stylesheet](Light/shikimori-m3-expressive_v0.3.css) · [Raw CSS](https://raw.githubusercontent.com/ausypher/shikimori-mt3/main/Light/shikimori-m3-expressive_v0.3.css)
-- **Dark** — planned; not released yet.
+- **Светлая — v0.4 (актуальная)** — [Открыть CSS-файл](Light/shikimori-m3-expressive_v0.4.css) · [Скачать CSS](https://raw.githubusercontent.com/ausypher/shikimori-mt3/main/Light/shikimori-m3-expressive_v0.4.css)
+- **Тёмная** — пока не выпущена.
 
-Version **0.3** is the current Light theme. Previous releases are superseded; use v0.3 for all new installations and updates.
+Для новых установок используйте актуальную светлую версию **v0.4**.
 
-## Installation
+## Установка
 
-You do not need to copy the entire CSS file. Shikimori can load the theme directly from GitHub using `@import`.
+Полный CSS-код копировать не нужно: Shikimori может загружать тему напрямую из GitHub через директиву `@import`.
 
-1. Open [Shikimori appearance settings](https://shikimori.one/profile/edit) and find the custom CSS field under **Settings → Site appearance → CSS**.
-2. Paste this line into the CSS field:
+1. Откройте [настройки оформления Shikimori](https://shikimori.one/profile/edit).
+2. Найдите поле пользовательского CSS в разделе **Настройки → Внешний вид сайта → CSS**.
+3. Добавьте в поле следующую строку:
 
 ```css
-@import url("https://raw.githubusercontent.com/ausypher/shikimori-mt3/main/Light/shikimori-m3-expressive_v0.3.css");
+@import url("https://raw.githubusercontent.com/ausypher/shikimori-mt3/main/Light/shikimori-m3-expressive_v0.4.css");
 ```
 
-3. Save your settings and reload Shikimori.
+4. Сохраните настройки и обновите страницу Shikimori.
 
-That's it — the theme will be loaded from this repository. You won't need to paste the full stylesheet manually.
+После этого тема будет загружаться непосредственно из репозитория. Вставлять весь файл CSS вручную не требуется.
 
-### Updating the theme
+### Обновление темы
 
-Shikimori may cache imported stylesheets. If an update does not appear, reset the imported stylesheet cache using [Shikimori's style cache reset page](https://shikimori.one/tests/reset_styles_cache), then reload the page.
+Shikimori может кэшировать подключённые стили. Если изменения не появились после обновления темы, сбросьте кэш на [странице очистки кэша стилей Shikimori](https://shikimori.one/tests/reset_styles_cache), а затем перезагрузите страницу.
 
-The Light stylesheet imports Roboto from Google Fonts; an internet connection may be required to load that font.
+Светлая тема использует шрифт Roboto из Google Fonts. Для его загрузки может потребоваться подключение к интернету.
 
-## Versioning
+## Разработка
 
-Light and Dark variants are maintained independently. The Light stylesheet's current release is **v0.3**. See [CHANGELOG.md](CHANGELOG.md) for the release history.
+Светлая и тёмная темы развиваются независимо друг от друга. Актуальная опубликованная версия светлой темы — **v0.4**.
 
-## License
+## Лицензия
 
-Licensed under **GNU GPL-3.0-only**. See [LICENSE](LICENSE) for the full license text.
+Проект распространяется по лицензии **GNU GPL-3.0-only**. Полный текст лицензии находится в файле [LICENSE](LICENSE).
 
-## Disclaimer
+## Отказ от ответственности
 
-This is an independent community-made theme and is not affiliated with, endorsed by, or sponsored by Shikimori or Google. All trademarks belong to their respective owners.
+Это независимый пользовательский проект. Он не связан с Shikimori или Google, не является их официальным продуктом и не поддерживается ими. Все товарные знаки принадлежат соответствующим правообладателям.
