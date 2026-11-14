@@ -1,0 +1,960 @@
+/* =====================================================================
+   SHIKIMORI — MATERIAL 3 EXPRESSIVE
+   Version 0.4.2 — Complete unified CSS replacement (compiled).
+   0.4.2: бульбочка уведомлений почты — оригинальная (белая, цифра тёмная)
+   ===================================================================== */
+
+/* Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&subset=cyrillic,cyrillic-ext,latin,latin-ext&display=swap");
+
+/* Shikimori: opt out of desktop-only wrapper for mobile custom CSS */
+@media {}
+
+/* =====================================================================
+   01. MATERIAL 3 EXPRESSIVE TOKENS
+   ===================================================================== */
+
+:root {
+  --sx-primary: #507b9c;
+  --sx-primary-hover: #315f86;
+  --sx-primary-soft: #dceaf5;
+  --sx-primary-strong: #315d82;
+
+  --sx-secondary: #587f83;
+  --sx-secondary-soft: #dcebe8;
+  --sx-tertiary: #8170a6;
+  --sx-tertiary-soft: #e9e3f3;
+  --sx-warm: #a87942;
+  --sx-warm-soft: #f2e8d8;
+  --sx-rose: #a96f7c;
+  --sx-rose-soft: #f1e2e7;
+  --sx-green: #56816c;
+  --sx-green-soft: #e0ece4;
+
+  --sx-background: #edf0f3;
+  --sx-page: #fdfcfa;
+  --sx-surface: #f8f7f4;
+  --sx-surface-raised: #fefefd;
+  --sx-surface-soft: #f3f1ed;
+  --sx-surface-hover: #ebe9e4;
+
+  --sx-text: #33424f;
+  --sx-text-secondary: #62717f;
+  --sx-text-muted: #788795;
+
+  --sx-border: #d8dfe5;
+  --sx-border-strong: #c8d2dc;
+
+  /* Smoother, larger corner scale */
+  --sx-radius-xs: 6px;
+  --sx-radius-sm: 10px;
+  --sx-radius-md: 14px;
+  --sx-radius-lg: 20px;
+  --sx-radius-headline: 8px;
+
+  /* Telegram-style spoiler dust (r, g, b) */
+  --sx-dust: 98, 118, 140;
+
+  --sx-shadow-soft: 0 1px 5px rgba(35, 52, 68, .055);
+  --sx-shadow-raised: 0 5px 16px rgba(35, 52, 68, .10);
+  --sx-shadow-menu: 0 7px 20px rgba(25, 39, 54, .18);
+
+  /* Elevation levels */
+  --sx-elev-1: 0 1px 2px rgba(35, 52, 68, .08), 0 1px 4px rgba(35, 52, 68, .06);
+  --sx-elev-2: 0 2px 6px rgba(35, 52, 68, .10), 0 4px 12px rgba(35, 52, 68, .07);
+  --sx-elev-3: 0 4px 10px rgba(35, 52, 68, .12), 0 10px 24px rgba(35, 52, 68, .09);
+
+  --sx-motion-fast: .16s ease;
+  --sx-motion: .22s ease;
+  --sx-ease-expressive: cubic-bezier(.2, 0, 0, 1);
+
+  /* Original Shikimori dark header color */
+  --sx-header: #343434;
+  --sx-header-trigger: #3e3e3e;
+  --sx-header-hover: #505050;
+  --sx-header-active: #595959;
+}
+
+/* =====================================================================
+   02. TYPOGRAPHY — GOOGLE FONTS, NATIVE SIZE SCALE
+   ===================================================================== */
+
+html { scroll-behavior: smooth; }
+
+body,
+button,
+input,
+select,
+textarea,
+.l-page,
+.l-content,
+.l-menu,
+.l-top_menu-v2,
+header.head h1,
+header.head h2,
+h1, h2, h3, h4, h5,
+.headline,
+.midheadline,
+.subheadline,
+.b-topic,
+.b-comment,
+.b-entry-info,
+.b-stats_bar,
+.b-quote {
+  font-family: "Roboto", "Helvetica Neue", Arial, sans-serif !important;
+  font-variation-settings: normal;
+}
+
+body {
+  color: #3a4955;
+  font-weight: 400;
+  background: url(/assets/background/scribble_light.png) repeat;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5 { color: var(--sx-text); letter-spacing: 0; }
+
+a { color: var(--sx-primary); text-decoration-color: transparent; transition: color var(--sx-motion-fast), text-decoration-color var(--sx-motion-fast); }
+a:hover { color: var(--sx-primary-hover); text-decoration-color: currentColor; }
+::selection { color: #20384c; background: #d0e2f0; }
+
+.b-topic .body, .b-comment .body, .b-article, .b-review .body, .description-current, .b-text_with_paragraphs { color: #3a4955; }
+.b-topic .name-date a.name, .b-comment .name-date a.name { font-weight: 600; letter-spacing: 0; }
+
+/* =====================================================================
+   03. PAGE CANVAS
+   ===================================================================== */
+.l-page { background-color: rgba(253, 252, 250, .97); border-radius: var(--sx-radius-md); box-shadow: var(--sx-elev-2); }
+
+/* =====================================================================
+   04. TOP HEADER
+   ===================================================================== */
+.l-top_menu-v2 { color: #f5f5f5 !important; background: var(--sx-header) !important; border-bottom: 1px solid rgba(255, 255, 255, .09); box-shadow: 0 2px 4px rgba(0, 0, 0, .20), 0 6px 16px rgba(0, 0, 0, .14); }
+.l-top_menu-v2 .menu-dropdown > span { color: #f5f5f5 !important; background: var(--sx-header-trigger) !important; border-radius: var(--sx-radius-sm); transition: background-color .2s var(--sx-ease-expressive), color .2s var(--sx-ease-expressive), box-shadow .2s var(--sx-ease-expressive); }
+.l-top_menu-v2 .menu-dropdown.main > span, .l-top_menu-v2 .menu-dropdown.profile > span { color: #f5f5f5 !important; background: var(--sx-header-trigger) !important; }
+.l-top_menu-v2 .menu-dropdown > span > span, .l-top_menu-v2 .menu-dropdown > span a, .l-top_menu-v2 .menu-dropdown > span a:link, .l-top_menu-v2 .menu-dropdown > span a:visited, .l-top_menu-v2 .menu-dropdown > span a:hover, .l-top_menu-v2 .menu-dropdown > span a:focus, .l-top_menu-v2 .menu-dropdown > span a:active { color: #f5f5f5 !important; text-decoration: none !important; opacity: 1 !important; }
+.l-top_menu-v2 .menu-dropdown.active > span, .l-top_menu-v2 .menu-dropdown > span:focus, .l-top_menu-v2 .menu-dropdown > span:focus-within, .l-top_menu-v2 .menu-dropdown.main.active > span, .l-top_menu-v2 .menu-dropdown.profile.active > span { color: #fff !important; background: var(--sx-header-active) !important; }
+
+@media (hover: hover) and (pointer: fine) {
+  .l-top_menu-v2 .menu-dropdown:hover > span, .l-top_menu-v2 .menu-dropdown.main:hover > span, .l-top_menu-v2 .menu-dropdown.profile:hover > span { color: #fff !important; background: var(--sx-header-hover) !important; }
+}
+
+.l-top_menu-v2 .menu-icon { color: #f5f5f5 !important; border-radius: var(--sx-radius-sm); transition: background-color .2s var(--sx-ease-expressive), color .2s var(--sx-ease-expressive), box-shadow .2s var(--sx-ease-expressive); }
+/* 0.4.2: наследование цвета только для иконки (::before). ::after — это бульбочка со счётчиком, ей цвет не навязываем */
+.l-top_menu-v2 .menu-icon:before { color: inherit !important; }
+.l-top_menu-v2 .menu-icon.active, .l-top_menu-v2 .menu-icon:focus, .l-top_menu-v2 .menu-icon:active { color: #fff !important; background-color: var(--sx-header-active) !important; }
+@media (hover: hover) and (pointer: fine) { .l-top_menu-v2 .menu-icon:hover { color: #fff !important; background-color: var(--sx-header-hover) !important; } }
+
+/* 0.4.2: бульбочка уведомлений — оригинальная: белая, цифра тёмная (размер и позиция — оригинальные) */
+.l-top_menu-v2 .menu-icon[data-count]::after,
+.l-top_menu-v2 .menu-icon[data-count]:hover::after,
+.l-top_menu-v2 .menu-icon[data-count]:focus::after,
+.l-top_menu-v2 .menu-icon[data-count]:active::after,
+.l-top_menu-v2 .menu-icon[data-count].active::after {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  background: #fff !important;
+  border-color: var(--sx-header);
+  opacity: 1 !important;
+}
+
+/* --- ВОЗВРАЩЕННЫЕ ВЫПАДАЮЩИЕ МЕНЮ ИЗ ВТОРОГО КОДА --- */
+.l-top_menu-v2 .submenu,
+.l-top_menu-v2 .submenu-inner,
+.l-top_menu-v2 .submenu > .heading {
+  color: #293846 !important;
+  background: #f9f8f5 !important;
+  border-color: #d5dde5;
+  border-radius: var(--sx-radius-md);
+  box-shadow: var(--sx-elev-3);
+}
+
+.l-top_menu-v2 .submenu a,
+.l-top_menu-v2 .submenu a:link,
+.l-top_menu-v2 .submenu a:visited,
+.l-top_menu-v2 .submenu span {
+  color: #385d7c !important;
+  text-decoration: none;
+}
+
+.l-top_menu-v2 .submenu a:hover,
+.l-top_menu-v2 .submenu a:focus,
+.l-top_menu-v2 .submenu a.active,
+.l-top_menu-v2 .submenu a:active {
+  color: #244d70 !important;
+  background: #e4e9ee !important;
+}
+/* --------------------------------------------------- */
+
+.l-top_menu-v2 .global-search input { color: #2b3d4e !important; background: #f6f5f2 !important; border: 1px solid rgba(255, 255, 255, .20); border-radius: 18px; transition: background var(--sx-motion-fast), border-color var(--sx-motion-fast), box-shadow var(--sx-motion-fast); }
+.l-top_menu-v2 .global-search input:focus { background: #fefefd !important; border-color: #9dbbd4; box-shadow: 0 0 0 3px rgba(157, 187, 212, .28), var(--sx-elev-1); }
+.l-top_menu-v2 .global-search .search-results { color: #293b4d; background: #faf9f7; border-color: var(--sx-border); border-radius: var(--sx-radius-md); box-shadow: var(--sx-shadow-menu); }
+
+/* =====================================================================
+   05. HEADLINES
+   ===================================================================== */
+.headline, .midheadline, .subheadline, .linkheadline { border-radius: var(--sx-radius-headline); }
+.linkheadline a { border-radius: inherit; }
+.l-top_menu-v2 .submenu a { border-radius: var(--sx-radius-sm); transition: background-color .18s var(--sx-ease-expressive), color .18s var(--sx-ease-expressive); }
+.my-list, .f-user .my-list, .c-my_list, .user_list { border-radius: 16px !important; box-shadow: var(--sx-elev-1); }
+.my-list img, .b-user_rate-history img, .c-my_list img, .user_list img { border-radius: var(--sx-radius-sm); }
+
+[class*="dashboards"] a[href*="/forum/news/"] img, [class*="dashboards"] a[href*="/forum/news/"] picture, [class*="dashboards"] a[href*="/forum/news/"] .image-decor, [class*="dashboards"] a[href*="/forum/news/"] .image-cutter, [class*="dashboards"] a[href*="/forum/news/"] [style*="background"], [class*="dashboards"] [class*="news"] img, [class*="dashboards"] [class*="news"] .cover, [class*="dashboards"] [class*="news"] .b-video, [class*="dashboards"] [class*="news"] .b-image, [class*="dashboards"] .b-video, [class*="dashboards"] .b-video img, [class*="dashboards"] .b-image img { border-radius: 14px; }
+[class*="dashboards"] a[href*="/forum/news/"] .image-decor, [class*="dashboards"] a[href*="/forum/news/"] .image-cutter, [class*="dashboards"] a[href*="/forum/news/"] [style*="background"], [class*="dashboards"] [class*="news"] .cover, [class*="dashboards"] [class*="news"] .b-video, [class*="dashboards"] [class*="news"] .b-image, [class*="dashboards"] .b-video { overflow: hidden; }
+.p-dashboards-show .c-content .options .option, .c-content .options .option { border-radius: 10px; }
+
+/* =====================================================================
+   05b. HOME CARDS, POSTERS, TOOLTIPS, BADGES
+   ===================================================================== */
+a:has(> .status-line):has(> .title), div.title[href] { border-radius: var(--sx-radius-md); overflow: hidden; }
+a:has(> .status-line):has(> .title) .poster, a:has(> .status-line):has(> .title) .b-shiki_swiper, a:has(> .status-line):has(> .title) picture, a:has(> .status-line):has(> .title) img { border-radius: var(--sx-radius-md); overflow: hidden; }
+a:has(> .status-line):has(> .title) .title { border-radius: 0 0 var(--sx-radius-md) var(--sx-radius-md); }
+.db-update .poster, .db-update .poster picture, .db-update .poster img { border-radius: var(--sx-radius-sm); }
+.db-update .poster { overflow: hidden; box-shadow: var(--sx-elev-1); }
+.tooltip-details .poster, .tooltip-details .c-poster, .tooltip-details .image-decor, .tooltip-details .image-cutter, .tooltip-details .cover, .tooltip .poster, .tooltip .c-poster, .tooltip .image-decor, .tooltip .image-cutter, .tooltip .cover { border-radius: var(--sx-radius-sm); overflow: hidden; }
+.tooltip-details img, .tooltip-details picture, .tooltip img, .tooltip picture { border-radius: var(--sx-radius-sm); }
+.b-badge, .b-badge img { border-radius: var(--sx-radius-md); }
+
+/* =====================================================================
+   06. EXISTING CONTENT
+   ===================================================================== */
+.b-topic { border-top-color: var(--sx-border-strong); transition: background-color .2s var(--sx-ease-expressive); }
+.b-topic .name-date .time { color: var(--sx-text-muted); }
+.b-comment { border-top-color: var(--sx-border-strong); transition: background-color .2s var(--sx-ease-expressive); }
+.b-comment .name-date a.name .normal, .b-comment .name-date a.name { color: #355b78; }
+.b-comment .name-date .time, .b-comment .name-date time { color: var(--sx-text-muted); }
+
+.b-comment .avatar img, .b-topic .avatar img, .b-user img.avatar, .b-comment > .inner > header img, .b-topic > .inner > header img, .b-message > .inner header img, .b-dialog > .inner header img, .b-user img, .b-user16 img, .avatar img, img.avatar, .b-club .logo, .l-top_menu-v2 .menu-dropdown.profile > span img { border-radius: 26%; }
+.b-comment > .inner > header img, .b-topic > .inner > header img, .b-message > .inner header img, .b-comment .avatar img, .b-topic .avatar img { box-shadow: 0 1px 4px rgba(35, 52, 68, .16); }
+.b-spoiler_block > div { box-shadow: var(--sx-elev-1); }
+
+/* =====================================================================
+   07. QUOTES
+   ===================================================================== */
+.b-quote, .b-topic .b-quote, .b-comment .b-quote { --q-bg: #d7e5f2; --q-fg: #172b3c; --q-accent: #3b7db0; --q-name: #1b5582; --q-ring: rgba(60, 111, 151, .10); color: var(--q-fg) !important; background: var(--q-bg) !important; border: 0 !important; border-radius: 14px !important; font-style: normal; padding: 8px 12px 8px 17px !important; margin: 7px 0 8px 5px; box-shadow: inset 4px 0 0 var(--q-accent), inset 0 0 0 1px var(--q-ring), 0 1px 2px rgba(35, 52, 68, .08); }
+.b-quote .b-quote { --q-bg: #d6eae5; --q-fg: #12302c; --q-accent: #4b8d80; --q-name: #20594f; --q-ring: rgba(69, 128, 116, .12); }
+.b-quote .b-quote .b-quote { --q-bg: #e6ddf1; --q-fg: #2a2140; --q-accent: #8068a8; --q-name: #553e7c; --q-ring: rgba(118, 95, 158, .12); }
+.b-quote .quoteable { color: var(--q-name) !important; font-weight: 600; font-style: normal; line-height: 1.45; }
+.b-quote .quoteable a, .b-quote .quoteable a:visited { color: var(--q-name) !important; font-weight: 600; }
+.b-quote .quoteable:before { color: var(--q-accent) !important; }
+.b-quote a:not(.quoteable), .b-quote a:not(.quoteable):visited { color: var(--q-name); text-decoration-color: currentColor; text-underline-offset: 2px; }
+.b-topic blockquote, .b-comment blockquote, .b-article blockquote, .b-review blockquote { color: #172b3c; background: #d7e5f2; border: 0; border-radius: 14px; padding: 8px 12px 8px 17px; margin: 8px 0; box-shadow: inset 4px 0 0 #3b7db0, inset 0 0 0 1px rgba(60, 111, 151, .10), 0 1px 2px rgba(35, 52, 68, .08); }
+
+/* =====================================================================
+   08. MEDIA
+   ===================================================================== */
+.b-topic .body img, .b-comment .body img, .b-article img, .b-review img { max-width: 100%; height: auto; }
+/* Смайлики — как в стоке: 32×32 px (при исходнике 50×50) */
+.b-topic .body img.smiley, .b-comment .body img.smiley,
+.b-article img.smiley, .b-review img.smiley {
+  max-width: none;
+  max-height: none;
+  width: auto;
+  height: 32px;
+  vertical-align: middle;
+}
+.b-topic .body video, .b-topic .body iframe, .b-topic .body embed, .b-topic .body object, .b-comment .body video, .b-comment .body iframe, .b-comment .body embed, .b-comment .body object { max-width: 100%; }
+.p-animes-show .c-video iframe, .p-mangas-show .c-video iframe, .p-ranobe-show .c-video iframe { max-width: 100%; box-sizing: border-box; }
+.p-animes-show .c-screenshot img, .p-mangas-show .c-screenshot img, .p-ranobe-show .c-screenshot img { max-width: 100%; height: auto; }
+.c-screenshot img, .c-video img { border-radius: var(--sx-radius-sm); box-shadow: var(--sx-elev-1); }
+.b-topic pre, .b-comment pre { max-width: 100%; overflow-x: auto; }
+.b-topic .body table, .b-comment .body table { max-width: 100%; }
+
+/* =====================================================================
+   09. CATALOG CARDS AND POSTERS
+   ===================================================================== */
+.b-catalog_entry .image-decor, .b-catalog_entry .image-cutter, .b-catalog_entry a > img, .c-poster img, .b-db_entry .c-poster img, .b-db_entry .c-image img { border-radius: var(--sx-radius-sm); box-shadow: var(--sx-elev-1); transition: box-shadow .25s var(--sx-ease-expressive), filter .25s var(--sx-ease-expressive); }
+@media (hover: hover) and (pointer: fine) {
+  .b-catalog_entry a:hover img { filter: saturate(1.06); }
+  .b-catalog_entry:hover .image-decor, .b-catalog_entry:hover .image-cutter, .b-catalog_entry a:hover > img, .c-poster:hover img { box-shadow: var(--sx-elev-3); }
+}
+
+/* =====================================================================
+   10. BUTTONS
+   ===================================================================== */
+.b-button, .b-link_button, input[type="submit"], input[type="button"] { border-radius: var(--sx-radius-sm); box-shadow: var(--sx-elev-1); transition: box-shadow .2s var(--sx-ease-expressive), filter .2s var(--sx-ease-expressive), background-color .2s var(--sx-ease-expressive), border-color .2s var(--sx-ease-expressive); }
+@media (hover: hover) and (pointer: fine) { .b-button:hover, .b-link_button:hover, input[type="submit"]:hover, input[type="button"]:hover { box-shadow: var(--sx-elev-2); filter: brightness(1.04); } }
+.b-button:active, .b-link_button:active, input[type="submit"]:active, input[type="button"]:active { box-shadow: var(--sx-elev-1); filter: brightness(.97); }
+.b-button:focus-visible, .b-link_button:focus-visible, button:focus-visible, a:focus-visible { outline: 2px solid #6c9fc5; outline-offset: 2px; }
+.b-spoiler_block > span { border-radius: 10px; padding-left: 11px !important; padding-right: 11px !important; box-shadow: var(--sx-elev-1); transition: box-shadow .2s var(--sx-ease-expressive), filter .2s var(--sx-ease-expressive); }
+
+/* =====================================================================
+   11. FORMS
+   ===================================================================== */
+input:not([type="checkbox"]):not([type="radio"]), select, textarea { color: #2b3d4d; background-color: #fefdfc; border-color: #cbd5df; border-radius: var(--sx-radius-sm); box-shadow: inset 0 1px 2px rgba(35, 52, 68, .06); transition: border-color .2s var(--sx-ease-expressive), box-shadow .2s var(--sx-ease-expressive), background-color .2s var(--sx-ease-expressive); }
+input[type="text"], input[type="search"], input[type="email"], input[type="password"], input[type="url"], input[type="number"], input:not([type]), select, textarea { border-radius: 12px; }
+input:focus, select:focus, textarea:focus { background-color: #fefefd; border-color: #6f9ec1; box-shadow: 0 0 0 3px rgba(71, 125, 165, .18); }
+input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outline: 2px solid #6c9fc5; outline-offset: 2px; }
+
+/* =====================================================================
+   12. PROFILE
+   ===================================================================== */
+.p-profiles .profile-head .c-brief .avatar img { border-radius: var(--sx-radius-md); }
+.p-profiles .profile-head .c-brief header h1 { color: var(--sx-text); }
+.p-profiles .profile-head .c-brief header .notice { color: var(--sx-text-secondary); }
+.p-profiles-show .profile-content .lifetime .title { color: var(--sx-text); }
+.p-profiles-show .profile-content .lifetime .times .time { color: var(--sx-text-secondary); }
+.p-profiles-show .profile-content .lifetime .times .time.checked { color: var(--sx-text); }
+.p-profiles-show .c-friends img, .p-profiles-show .c-clubs img, .p-profiles-show .c-favorites img, .p-profiles-show .c-achievements img, .p-profiles-show .b-club img, .p-profiles-show .b-user img, .p-profiles-show .b-achievement img, .p-profiles-show .b-achievements img, .p-profiles-show .b-catalog_entry img { border-radius: var(--sx-radius-md); }
+.p-profiles-show .c-history .entry img, .p-profiles-show .c-history img { border-radius: var(--sx-radius-sm); }
+
+/* =====================================================================
+   13. PROFILE — STATS BARS
+   ===================================================================== */
+.b-stats_bar { color: var(--sx-text); }
+.b-stats_bar .title { color: #354a5d; font-family: "Roboto", Arial, sans-serif; font-weight: 600; letter-spacing: 0; }
+.b-stats_bar .bar { height: 20px !important; border-radius: 12px; background: #e8edf1; box-shadow: inset 0 1px 2px rgba(35, 52, 68, .08); overflow: hidden; }
+.b-stats_bar .bar .first, .b-stats_bar .bar .second, .b-stats_bar .bar .third { height: 20px !important; line-height: 20px !important; font-size: 12px; font-weight: 500; text-shadow: none; transition: filter .2s ease; }
+.b-stats_bar .bar .first, .b-stats_bar .bar .second { box-shadow: inset -2px 0 0 var(--sx-page); }
+.b-stats_bar.anime .bar .first  { background: #8cbcf0; color: #14304d; }
+.b-stats_bar.anime .bar .second { background: #b8d7f6; color: #1a3b5c; }
+.b-stats_bar.anime .bar .third  { background: #d7dde4; color: #3f4c59; }
+.b-stats_bar.manga .bar .first  { background: #bba6ea; color: #2a1f4d; }
+.b-stats_bar.manga .bar .second { background: #d9cdf4; color: #33275a; }
+.b-stats_bar.manga .bar .third  { background: #e5e0ec; color: #4a4558; }
+.b-stats_bar.ranobe .bar .first  { background: #84d3c0; color: #0f3b33; }
+.b-stats_bar.ranobe .bar .second { background: #b4e6da; color: #15463d; }
+.b-stats_bar.ranobe .bar .third  { background: #dfe8e5; color: #3d4f4a; }
+.b-stats_bar.lifetime .bar .first  { background: #f3a3ab; color: #4d1b22; }
+.b-stats_bar.lifetime .bar .second { background: #f8cdd1; color: #572329; }
+.b-stats_bar.lifetime .bar .third  { background: #e8e0e1; color: #504649; }
+.b-stats_bar .stat_names { color: var(--sx-text-secondary); font-family: "Roboto", Arial, sans-serif; }
+.b-stats_bar .stat_names .stat_name a { color: #506d86; text-decoration-color: transparent; transition: color .18s ease, background-color .18s ease; }
+.b-stats_bar .stat_names .stat_name a:hover { color: #315f86; text-decoration-color: currentColor; }
+@media (hover: hover) and (pointer: fine) { .b-stats_bar .bar:hover .first, .b-stats_bar .bar:hover .second, .b-stats_bar .bar:hover .third { filter: brightness(1.03) saturate(1.08); } }
+
+/* =====================================================================
+   14. PROFILE — ACTIVITY GRAPH
+   ===================================================================== */
+:root { --sx-spring: cubic-bezier(.34, 1.45, .5, 1); }
+.activity .graph.vertical .line .bar-container {
+  border-radius: 9px 9px 0 0;
+  background: linear-gradient(180deg, rgba(80, 123, 156, 0) 0%, rgba(80, 123, 156, .07) 100%);
+}
+.activity .graph.vertical .line .bar {
+  box-sizing: content-box;
+  transform: translateY(1px);
+  transform-origin: center bottom;
+  background: linear-gradient(180deg, #82b8c2 0%, #568ca9 55%, #557ba5 100%);
+  border-radius: 4px 4px 1px 1px;
+  animation: sx-activity 1.5s linear infinite both;
+}
+.activity .graph.vertical .line .bar:hover {
+  animation-name: none;
+  transform: none;
+  filter: brightness(1.08) saturate(1.08);
+}
+.activity .graph.vertical .line:nth-of-type(6n+2) .bar { animation-delay: -.25s; }
+.activity .graph.vertical .line:nth-of-type(6n+4) .bar { animation-delay: -.5s; }
+.activity .graph.vertical .line:nth-of-type(6n+3) .bar { animation-delay: -.75s; }
+.activity .graph.vertical .line:nth-of-type(6n+6) .bar { animation-delay: -1s; }
+.activity .graph.vertical .line:nth-of-type(6n+5) .bar { animation-delay: -1.25s; }
+@keyframes sx-activity {
+  0%, 100% { transform: translateY(1px); }
+  50% { transform: translateY(7px); }
+}
+
+/* =====================================================================
+   15. LIST STATUS DROPDOWN
+   ===================================================================== */
+.b-add_to_list .trigger { border-radius: var(--sx-radius-md); box-shadow: var(--sx-elev-1); }
+.b-add_to_list .trigger-arrow, .b-add_to_list .edit-trigger { border-radius: inherit; }
+.b-add_to_list:has(.expanded-options[style*="block"]) .trigger { border-radius: var(--sx-radius-md) var(--sx-radius-md) 0 0; }
+.b-add_to_list .expanded-options { border-radius: 0 0 var(--sx-radius-md) var(--sx-radius-md); overflow: hidden; box-shadow: var(--sx-elev-2); }
+.b-add_to_list .expanded-options .option, .b-add_to_list .option { border-radius: 0; }
+.b-rate .stars.hover { color: #c28b45; }
+
+/* =====================================================================
+   16. SCROLLBARS
+   ===================================================================== */
+* { scrollbar-width: auto; scrollbar-color: #a9b6c3 #eceae5; }
+::-webkit-scrollbar { width: 16px; height: 16px; }
+::-webkit-scrollbar-track { background: #eceae5; border-radius: 8px; }
+::-webkit-scrollbar-thumb { background: #a9b6c3; border-radius: 10px; border: 4px solid transparent; background-clip: content-box; min-height: 48px; transition: background-color .2s ease; }
+::-webkit-scrollbar-thumb:hover { background: #7f93a6; background-clip: content-box; }
+::-webkit-scrollbar-thumb:active { background: #5f7a92; background-clip: content-box; }
+::-webkit-scrollbar-corner { background: transparent; }
+
+/* =====================================================================
+   16b. "SCROLL TO TOP" EDGE BUTTON (left side)
+   ===================================================================== */
+
+.b-to-top {
+  z-index: 99999 !important;
+  cursor: pointer !important;
+}
+
+.b-to-top .slide {
+  width: 60px !important;
+  border-radius: 0 !important;
+  background: linear-gradient(90deg, rgba(80, 123, 156, .24) 0%, rgba(80, 123, 156, .09) 100%) !important;
+  box-shadow: inset 0 0 0 1.5px rgba(80, 123, 156, .38),
+              6px 0 20px rgba(35, 52, 68, .10) !important;
+  opacity: 0 !important;
+  transition: opacity .25s var(--sx-ease-expressive) !important;
+  overflow: hidden;
+}
+
+.b-to-top .slide::after {
+  content: none !important;
+  display: none !important;
+}
+
+.b-to-top:hover .slide {
+  opacity: 1 !important;
+}
+
+.b-to-top:hover .arrow {
+  animation: sx-arrow-nudge 1.1s ease-in-out infinite;
+}
+
+.b-to-top:active .slide {
+  background: linear-gradient(90deg, rgba(80, 123, 156, .34) 0%, rgba(80, 123, 156, .14) 100%) !important;
+}
+
+@keyframes sx-arrow-nudge {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+
+/* =====================================================================
+   16c. TAGS, STATUS BADGES
+   ===================================================================== */
+.b-anime_status_tag, [class*="status_tag"], .b-tag, .b-topic_tag, [class*="b-tag"]:not([class*="tags"]), [class*="topic_tag"], [class*="forum_tag"], .linked-tag { border-radius: 9px; }
+.b-anime_status_tag, [class*="status_tag"] { padding: 1px 8px !important; box-shadow: 0 1px 2px rgba(35, 52, 68, .12); }
+.b-new_marker, .b-offtopic_marker, .b-offtopic_marker.active, .b-offtopic_marker.active.off, .b-summary_marker, .b-broadcast_marker, .b-abuse_marker { border-radius: 10px !important; padding: 1px 9px !important; }
+.b-spoiler_block > div { border-radius: var(--sx-radius-md); }
+.pagination a, .pagination .link, .pagination .current, .pagination .page, .b-pagination a { border-radius: 10px; }
+
+/* =====================================================================
+   16d. INLINE SPOILER — TELEGRAM-STYLE MOVING PARTICLES
+   ===================================================================== */
+.b-spoiler_inline {
+  cursor: pointer;
+  border-radius: 7px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  outline: none;
+  padding: 3px 7px;      /* вертикальный + горизонтальный отступ */
+  line-height: 1.5;      /* чуть выше строки, чтобы фон не был «тонкой линией» */
+}
+
+/* Закрытый спойлер: текст скрыт, поверх бегут частицы */
+.b-spoiler_inline:not(:focus):not(.is-opened):not(.opened):not(.open):not(.is-open):not(.revealed):not(.is-revealed):not(.active) {
+  color: transparent !important;
+  text-shadow: none !important;
+  user-select: none;
+  -webkit-user-select: none;
+  background-color: rgba(var(--sx-dust), .18);
+  background-image:
+    radial-gradient(circle at 30% 40%, rgba(var(--sx-dust), .95) 0 .8px, transparent 1.5px),
+    radial-gradient(circle at 65% 30%, rgba(var(--sx-dust), .85) 0 .7px, transparent 1.4px),
+    radial-gradient(circle at 40% 70%, rgba(var(--sx-dust), .80) 0 .7px, transparent 1.4px),
+    radial-gradient(circle at 70% 55%, rgba(255, 255, 255, .95) 0 .8px, transparent 1.5px),
+    radial-gradient(circle at 50% 50%, rgba(var(--sx-dust), .75) 0 .6px, transparent 1.3px) !important;
+  background-size: 9px 11px, 13px 9px, 7px 13px, 17px 15px, 11px 7px !important;
+  background-repeat: repeat !important;
+  background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
+  animation:
+    sx-spoiler-move 12s linear infinite,
+    sx-spoiler-twinkle 1.7s linear infinite,
+    sx-spoiler-haze 1.9s ease-in-out infinite alternate;
+}
+.b-spoiler_inline:not(:focus):not(.is-opened):not(.opened):not(.open):not(.is-open):not(.revealed):not(.is-revealed):not(.active) > span,
+.b-spoiler_inline:not(:focus):not(.is-opened):not(.opened):not(.open):not(.is-open):not(.revealed):not(.is-revealed):not(.active) a {
+  display: inline !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  color: transparent !important;
+  text-shadow: none !important;
+}
+/* Скрываем изображения (смайлики, картинки) внутри закрытого спойлера */
+.b-spoiler_inline:not(:focus):not(.is-opened):not(.opened):not(.open):not(.is-open):not(.revealed):not(.is-revealed):not(.active) img,
+.b-spoiler_inline:not(:focus):not(.is-opened):not(.opened):not(.open):not(.is-open):not(.revealed):not(.is-revealed):not(.active) picture,
+.b-spoiler_inline:not(:focus):not(.is-opened):not(.opened):not(.open):not(.is-open):not(.revealed):not(.is-revealed):not(.active) video,
+.b-spoiler_inline:not(:focus):not(.is-opened):not(.opened):not(.open):not(.is-open):not(.revealed):not(.is-revealed):not(.active) svg,
+.b-spoiler_inline:not(:focus):not(.is-opened):not(.opened):not(.open):not(.is-open):not(.revealed):not(.is-revealed):not(.active) canvas {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+.b-spoiler_inline:not(:focus):not(.is-opened):not(.opened):not(.open):not(.is-open):not(.revealed):not(.is-revealed):not(.active)::before,
+.b-spoiler_inline:not(:focus):not(.is-opened):not(.opened):not(.open):not(.is-open):not(.revealed):not(.is-revealed):not(.active)::after { display: none !important; }
+
+/* Открытый спойлер */
+.b-spoiler_inline:focus, .b-spoiler_inline.is-opened, .b-spoiler_inline.opened, .b-spoiler_inline.open, .b-spoiler_inline.is-open, .b-spoiler_inline.revealed, .b-spoiler_inline.is-revealed, .b-spoiler_inline.active { background-image: none !important; background-color: rgba(var(--sx-dust), .08); animation: none; text-shadow: none; }
+
+/* Движение слоёв */
+@keyframes sx-spoiler-move {
+  0%    { background-position:    0px  0px,     0px  0px,    0px    0px,     0px    0px,   0px  0px; }
+  12.5% { background-position:    9px  4px,   -13px -3px,    3px  -13px,    17px   15px,   5px  7px; }
+  25%   { background-position:   18px  0px,   -26px  0px,    0px  -26px,    34px   30px,   0px 14px; }
+  37.5% { background-position:   27px -4px,   -39px  3px,   -3px  -39px,    51px   45px,  -5px 21px; }
+  50%   { background-position:   36px  0px,   -52px  0px,    0px  -52px,    68px   60px,   0px 28px; }
+  62.5% { background-position:   45px  4px,   -65px -3px,    3px  -65px,    85px   75px,   5px 35px; }
+  75%   { background-position:   54px  0px,   -78px  0px,    0px  -78px,   102px   90px,   0px 42px; }
+  87.5% { background-position:   63px -4px,   -91px  3px,   -3px  -91px,   119px  105px,  -5px 49px; }
+  100%  { background-position:   72px  0px,  -104px  0px,    0px -104px,   136px  120px,   0px 56px; }
+}
+@keyframes sx-spoiler-twinkle {
+  0%, 100% { opacity: 1; }
+  15% { opacity: .78; }
+  30% { opacity: .96; }
+  48% { opacity: .72; }
+  66% { opacity: 1; }
+  82% { opacity: .85; }
+}
+@keyframes sx-spoiler-haze { from { background-color: rgba(var(--sx-dust), .14); } to { background-color: rgba(var(--sx-dust), .26); } }
+
+/* =====================================================================
+   16e. SMOOTH CORNERS (squircle)
+   ===================================================================== */
+@supports (corner-shape: squircle) {
+  .headline, .midheadline, .subheadline, .linkheadline,
+  .l-page,
+  .l-top_menu-v2 .submenu,
+  .l-top_menu-v2 .submenu a,
+  .b-quote,
+  .b-topic blockquote, .b-comment blockquote, .b-article blockquote, .b-review blockquote,
+  .b-anime_status_tag, [class*="status_tag"], .b-tag,
+  .b-new_marker, .b-offtopic_marker, .b-summary_marker, .b-broadcast_marker, .b-abuse_marker,
+  .b-spoiler_inline, .b-spoiler_block > span, .b-spoiler_block > div,
+  a:has(> .status-line):has(> .title), div.title[href],
+  a:has(> .status-line):has(> .title) .poster,
+  a:has(> .status-line):has(> .title) .b-shiki_swiper,
+  .db-update .poster, .db-update .poster img,
+  .tooltip-details .poster, .tooltip-details img,
+  .b-badge, .b-badge img,
+  .b-comment > .inner > header img, .b-topic > .inner > header img,
+  .b-message > .inner header img, .b-user img, .avatar img, img.avatar,
+  .b-add_to_list .trigger, .b-add_to_list .expanded-options,
+  .b-button, .b-link_button, input[type="submit"], input[type="button"],
+  input[type="text"], input[type="search"], input[type="email"],
+  input[type="password"], input[type="url"], input[type="number"],
+  select, textarea,
+  .activity .graph.vertical .line .bar,
+  .b-stats_bar .bar,
+  .b-to-top > .slide {
+    corner-shape: squircle;
+  }
+}
+
+/* =====================================================================
+   17. MOBILE
+   ===================================================================== */
+@media screen and (max-width: 1023px) {
+  body { background: url(/assets/background/scribble_light.png) repeat; }
+  .l-page { border-radius: 0; box-shadow: none; }
+  .b-quote, .b-topic .b-quote, .b-comment .b-quote { margin-left: 0; padding: 8px 10px 8px 15px !important; }
+}
+
+/* =====================================================================
+   18. ACCESSIBILITY
+   ===================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .activity .graph.vertical .line .bar,
+  .b-spoiler_inline,
+  .b-to-top > .arrow {
+    animation: none !important;
+    transform: none !important;
+  }
+  a, .b-button, .b-link_button, .b-catalog_entry a img, .b-catalog_entry .image-decor, .b-catalog_entry .image-cutter, .b-spoiler_block > span, .b-add_to_list .trigger, .b-add_to_list .option, input, select, textarea { transition: none !important; }
+}
+
+/* =====================================================================
+   19. PROFILE — LIFETIME CUT MARKERS (full-height bar dividers)
+   ===================================================================== */
+.p-profiles-show .lifetime,
+.p-profiles-show .lifetime .bar,
+.p-profiles-show .lifetime .bar-container {
+  position: relative;
+}
+
+.p-profiles-show .lifetime .cuts,
+.p-profiles-show .lifetime .bar > .cuts,
+.p-profiles-show .lifetime .bar-container > .cuts {
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: auto !important;
+  width: auto !important;
+  z-index: 40 !important;
+  pointer-events: none !important;
+  overflow: visible !important;
+}
+
+.p-profiles-show .lifetime .cuts .cut {
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  width: 2px !important;
+  background: var(--sx-page, #fdfcfa) !important;
+  border: 0 !important;
+  outline: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: -1px 0 0 rgba(80, 123, 156, .14),
+               1px 0 0 rgba(80, 123, 156, .14) !important;
+  opacity: 1 !important;
+  transform: translateX(-1px);
+  z-index: 41 !important;
+}
+
+@supports (corner-shape: squircle) {
+  .p-profiles-show .lifetime .cuts .cut {
+    corner-shape: squircle;
+  }
+}
+
+.p-profiles-show .lifetime .cut.week,
+.p-profiles-show .lifetime .cut.month,
+.p-profiles-show .lifetime .cut.month_3,
+.p-profiles-show .lifetime .cut.month_6,
+.p-profiles-show .lifetime .cut.year {
+  background: var(--sx-page, #fdfcfa) !important;
+}
+
+
+/* =====================================================================
+   20. ACHIEVEMENTS — ORIGINAL LAYOUT + ROUNDED POSTERS
+   ===================================================================== */
+
+.b-achievement,
+.c-achievements .b-achievement {
+  border-radius: 0 !important;
+  overflow: visible !important;
+}
+
+.b-achievement .c-about,
+.c-achievements .b-achievement .c-about {
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.b-achievement .c-about .text,
+.c-achievements .b-achievement .c-about .text {
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.b-achievement .c-image,
+.c-achievements .b-achievement .c-image {
+  border-radius: var(--sx-radius-md) !important;
+  overflow: hidden !important;
+}
+
+.b-achievement .c-image .inner,
+.b-achievement .c-image a,
+.b-achievement .c-image img,
+.c-achievements .b-achievement .c-image .inner,
+.c-achievements .b-achievement .c-image a,
+.c-achievements .b-achievement .c-image img {
+  border-radius: var(--sx-radius-md) !important;
+}
+
+
+/* =====================================================================
+   21. FRANCHISES — ROUNDED POSTERS
+   ===================================================================== */
+.b-catalog_entry,
+.b-catalog_entry .image-decor,
+.b-catalog_entry .image-cutter,
+.b-catalog_entry .c-image,
+.b-catalog_entry a > img,
+.b-catalog_entry .poster,
+.b-catalog_entry .poster img,
+.cc-franchises .b-catalog_entry,
+.cc-franchises .b-catalog_entry .image-decor,
+.cc-franchises .b-catalog_entry .image-cutter,
+.cc-franchises .b-catalog_entry .c-image,
+.cc-franchises .b-catalog_entry a > img {
+  border-radius: var(--sx-radius-md) !important;
+}
+.b-catalog_entry .image-decor,
+.b-catalog_entry .image-cutter,
+.b-catalog_entry .c-image,
+.b-catalog_entry .poster,
+.cc-franchises .b-catalog_entry .image-decor,
+.cc-franchises .b-catalog_entry .image-cutter,
+.cc-franchises .b-catalog_entry .c-image {
+  overflow: hidden;
+}
+
+/* =====================================================================
+   22. PROFILE SETTINGS — ROBOTO TYPOGRAPHY
+   ===================================================================== */
+.p-profiles-edit,
+.p-profiles-edit .l-content,
+.p-profiles-edit .block,
+.p-profiles-edit form,
+.p-profiles-edit fieldset,
+.p-profiles-edit legend,
+.p-profiles-edit label,
+.p-profiles-edit .field,
+.p-profiles-edit .hint,
+.p-profiles-edit .help,
+.p-profiles-edit .notice,
+.p-profiles-edit .subheadline,
+.p-profiles-edit .headline,
+.p-profiles-edit h1,
+.p-profiles-edit h2,
+.p-profiles-edit h3,
+.p-profiles-edit h4,
+.p-profiles-edit p,
+.p-profiles-edit li,
+.p-profiles-edit td,
+.p-profiles-edit th,
+.p-profiles-edit a,
+.p-profiles-edit button,
+.p-profiles-edit input,
+.p-profiles-edit select,
+.p-profiles-edit textarea {
+  font-family: "Roboto", "Helvetica Neue", Arial, sans-serif !important;
+  font-variation-settings: normal;
+}
+
+/* =====================================================================
+   23. RATING STARS — BRIGHT, ORIGINAL GOLD HOVER
+   ===================================================================== */
+.b-rate .stars-container .stars.hover,
+.b-rate .stars-container:hover .stars.hover,
+.b-rate .stars-container .hoverable-trigger:hover ~ .stars.hover {
+  color: #c28b45 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  filter: brightness(1.28) saturate(1.4) contrast(1.08) !important;
+  mix-blend-mode: normal !important;
+  text-shadow: 0 0 1px rgba(194, 139, 69, .55), 0 0 4px rgba(194, 139, 69, .28) !important;
+  transition: filter .12s ease, opacity .12s ease;
+}
+.b-rate .stars-container .stars.score,
+.b-rate .stars-container .stars.background {
+  filter: none !important;
+  mix-blend-mode: normal !important;
+}
+
+/* =====================================================================
+   24. FORUM — NATIVE FLAT LAYOUT (REMOVED CARDS/OVERFLOWS)
+   ===================================================================== */
+.b-forum,
+.p-forums .b-forum,
+.p-forum .b-forum,
+.b-forum .topics .b-topic,
+.p-forum .b-topic,
+.p-forums .b-topic,
+.p-topics_show .b-topic,
+.b-message {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+.b-topic { border-top: 1px solid var(--sx-border-strong) !important; border-radius: 0 !important; background: transparent !important; }
+.b-comment { border-top: 1px solid var(--sx-border-strong) !important; border-radius: 0 !important; background: transparent !important; }
+
+.b-forum .name a,
+.b-forum .title a,
+.b-message .name-date a.name {
+  color: var(--sx-primary-strong) !important;
+  font-weight: 600 !important;
+}
+
+.b-message .b-quote {
+  border-radius: 14px !important;
+}
+
+.b-topic .buttons .b-button,
+.b-message .buttons .b-button,
+.b-topic .options .option,
+.b-message .options .option {
+  border-radius: var(--sx-radius-sm) !important;
+}
+
+.b-topic .editor,
+.b-message .editor,
+.p-topics_show .editor {
+  border-radius: var(--sx-radius-md) !important;
+  border: 1px solid var(--sx-border) !important;
+  box-shadow: var(--sx-elev-1) !important;
+  overflow: hidden !important;
+}
+
+.b-topic .editor .toolbar,
+.b-message .editor .toolbar,
+.p-topics_show .editor .toolbar {
+  border-radius: var(--sx-radius-md) var(--sx-radius-md) 0 0 !important;
+  background: var(--sx-surface-soft) !important;
+  border-bottom: 1px solid var(--sx-border) !important;
+}
+
+.b-topic .editor textarea,
+.b-message .editor textarea,
+.p-topics_show .editor textarea {
+  border-radius: 0 0 var(--sx-radius-md) var(--sx-radius-md) !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* =====================================================================
+   25. SCORE DISTRIBUTION — HORIZONTAL BAR CHART (rates_scores_stats)
+   ===================================================================== */
+.bar.simple.horizontal {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 12px 14px;
+  background: var(--sx-surface);
+  border: 1px solid var(--sx-border);
+  border-radius: var(--sx-radius-lg);
+  box-shadow: var(--sx-elev-1);
+}
+.bar.simple.horizontal .line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 1px 36px 1px 4px;      /* резерв справа под число */
+  border-radius: var(--sx-radius-sm);
+  transition: background-color var(--sx-motion-fast);
+}
+@media (hover: hover) and (pointer: fine) {
+  .bar.simple.horizontal .line:hover { background: var(--sx-surface-hover); }
+}
+.bar.simple.horizontal .line .x_label {
+  flex: 0 0 auto;
+  width: auto;
+  min-width: 22px;
+  color: var(--sx-text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 22px;
+  text-align: center;
+  white-space: nowrap;
+}
+.bar.simple.horizontal .line .bar-container {
+  flex: 1 1 auto;
+  height: 22px;
+  background: #e8edf1;
+  border-radius: 12px;
+  box-shadow: inset 0 1px 2px rgba(35, 52, 68, .08);
+  overflow: visible;
+}
+.bar.simple.horizontal .line .bar-container .bar {
+  position: relative;
+  box-sizing: border-box;
+  height: 22px !important;
+  min-width: 12px;
+  border-radius: 12px !important;
+  background: #b8d7f6 !important;
+  box-shadow: inset 0 -1px 0 rgba(35, 52, 68, .10), 0 1px 3px rgba(35, 52, 68, .14);
+  color: #33424f;
+  overflow: visible !important;
+  transition: filter var(--sx-motion-fast), box-shadow var(--sx-motion-fast);
+  animation: sx-score-grow .7s var(--sx-ease-expressive) both;
+}
+.bar.simple.horizontal .line .bar-container .bar .value {
+  color: #26343f !important;
+  font-family: "Roboto", Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 22px;
+  text-shadow: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .bar.simple.horizontal .line:hover .bar-container .bar {
+    filter: brightness(1.05) saturate(1.12);
+    box-shadow: inset 0 -1px 0 rgba(35, 52, 68, .10), 0 2px 6px rgba(35, 52, 68, .22);
+  }
+}
+
+/* Цвет по оценке: 10 (зелёный) → 1 (розово-красный) */
+#rates_scores_stats .line:nth-child(1) .bar-container .bar { background: #7fcfb0 !important; }
+#rates_scores_stats .line:nth-child(2) .bar-container .bar { background: #94d3a9 !important; }
+#rates_scores_stats .line:nth-child(3) .bar-container .bar { background: #abd79b !important; }
+#rates_scores_stats .line:nth-child(4) .bar-container .bar { background: #c6da90 !important; }
+#rates_scores_stats .line:nth-child(5) .bar-container .bar { background: #e4d98b !important; }
+#rates_scores_stats .line:nth-child(6) .bar-container .bar { background: #f0cd86 !important; }
+#rates_scores_stats .line:nth-child(7) .bar-container .bar { background: #f2b98a !important; }
+#rates_scores_stats .line:nth-child(8) .bar-container .bar { background: #f1a58f !important; }
+#rates_scores_stats .line:nth-child(9) .bar-container .bar { background: #ee9a9d !important; }
+#rates_scores_stats .line:nth-child(10) .bar-container .bar { background: #e48c9c !important; }
+
+/* Ступенчатое появление */
+.bar.simple.horizontal .line:nth-child(2) .bar { animation-delay: 0.04s; }
+.bar.simple.horizontal .line:nth-child(3) .bar { animation-delay: 0.08s; }
+.bar.simple.horizontal .line:nth-child(4) .bar { animation-delay: 0.12s; }
+.bar.simple.horizontal .line:nth-child(5) .bar { animation-delay: 0.16s; }
+.bar.simple.horizontal .line:nth-child(6) .bar { animation-delay: 0.20s; }
+.bar.simple.horizontal .line:nth-child(7) .bar { animation-delay: 0.24s; }
+.bar.simple.horizontal .line:nth-child(8) .bar { animation-delay: 0.28s; }
+.bar.simple.horizontal .line:nth-child(9) .bar { animation-delay: 0.32s; }
+.bar.simple.horizontal .line:nth-child(10) .bar { animation-delay: 0.36s; }
+
+/* Статусы в списках */
+#rates_statuses_stats .line {
+  display: flex !important;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 0;
+  padding: 3px 36px 5px 6px;
+}
+#rates_statuses_stats .line .x_label {
+  position: static !important;
+  float: none !important;
+  flex: 0 0 100%;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 2px;
+  text-align: left;
+  font-size: 12.5px;
+  line-height: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#rates_statuses_stats .line .bar-container {
+  position: relative !important;
+  flex: 0 0 100%;
+  width: 100% !important;
+  min-width: 0;
+  margin: 0 !important;
+  height: 18px;
+}
+#rates_statuses_stats .line .bar-container .bar,
+#rates_statuses_stats .line .bar-container .bar .value { height: 18px !important; line-height: 18px; }
+#rates_statuses_stats .line:nth-child(1) .bar-container .bar { background: #c9bdf0 !important; }
+#rates_statuses_stats .line:nth-child(2) .bar-container .bar { background: #94d3a9 !important; }
+#rates_statuses_stats .line:nth-child(3) .bar-container .bar { background: #8cbcf0 !important; }
+#rates_statuses_stats .line:nth-child(4) .bar-container .bar { background: #ee9a9d !important; }
+#rates_statuses_stats .line:nth-child(5) .bar-container .bar { background: #f0cd86 !important; }
+
+/* Числа справа от полосы */
+.bar.simple.horizontal .line .bar-container .bar .value { display: none !important; }
+.bar.simple.horizontal .line .bar-container .bar::after {
+  content: attr(title);
+  position: absolute;
+  top: 0;
+  left: 100%;
+  margin-left: 6px;
+  height: 100%;
+  color: #26343f;
+  font-family: "Roboto", Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 22px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+#rates_statuses_stats .line .bar-container .bar::after { line-height: 18px; }
+
+@keyframes sx-score-grow {
+  from { width: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bar.simple.horizontal .line .bar-container .bar { animation: none !important; }
+}
