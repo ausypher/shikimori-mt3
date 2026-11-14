@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented here.
 
+## [0.4.2] - 2026-11-14
+
+### Updated
+- Moved the current Light stylesheet to `light/shikimori-m3-expressive_v0.4.2.css`.
+- Updated repository documentation and installation links to version 0.4.2.
+- Standardized the Light stylesheet directory name to lowercase `light`.
+
+### Improvements
+- Preserved the original white email notification badge with dark counter text.
+
+
 ## [0.3] - 2026-11-13
 
 ### Updated
