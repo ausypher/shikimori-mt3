@@ -4,10 +4,10 @@
 
 ## Темы
 
-- **Светлая — v0.4 (актуальная)** — [Открыть CSS-файл](Light/shikimori-m3-expressive_v0.4.css) · [Скачать CSS](https://raw.githubusercontent.com/ausypher/shikimori-mt3/main/Light/shikimori-m3-expressive_v0.4.css)
+- **Светлая — v0.4.2 (актуальная)** — [Открыть CSS-файл](light/shikimori-m3-expressive_v0.4.2.css) · [Скачать CSS](https://raw.githubusercontent.com/ausypher/shikimori-mt3/main/light/shikimori-m3-expressive_v0.4.2.css)
 - **Тёмная** — пока не выпущена.
 
-Для новых установок используйте актуальную светлую версию **v0.4**.
+Для новых установок используйте актуальную светлую версию **v0.4.2**.
 
 ## Установка
 
@@ -18,7 +18,7 @@
 3. Добавьте в поле следующую строку:
 
 ```css
-@import url("https://raw.githubusercontent.com/ausypher/shikimori-mt3/main/Light/shikimori-m3-expressive_v0.4.css");
+@import url("https://raw.githubusercontent.com/ausypher/shikimori-mt3/main/light/shikimori-m3-expressive_v0.4.2.css");
 ```
 
 4. Сохраните настройки и обновите страницу Shikimori.
@@ -33,7 +33,7 @@ Shikimori может кэшировать подключённые стили. �
 
 ## Разработка
 
-Светлая и тёмная темы развиваются независимо друг от друга. Актуальная опубликованная версия светлой темы — **v0.4**.
+Светлая и тёмная темы развиваются независимо друг от друга. Актуальная опубликованная версия светлой темы — **v0.4.2**.
 
 ## Лицензия
 
