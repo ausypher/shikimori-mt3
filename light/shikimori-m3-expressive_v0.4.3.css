@@ -1,7 +1,7 @@
 /* =====================================================================
    SHIKIMORI — MATERIAL 3 EXPRESSIVE
-   Version 0.4.2 — Complete unified CSS replacement (compiled).
-   0.4.2: бульбочка уведомлений почты — оригинальная (белая, цифра тёмная)
+   Version 0.4.3 — Complete unified CSS replacement (compiled).
+   0.4.3: бульбочка уведомлений почты — оригинальная (белая, цифра тёмная)
    ===================================================================== */
 
 /* Google Fonts */
@@ -141,12 +141,12 @@ a:hover { color: var(--sx-primary-hover); text-decoration-color: currentColor; }
 }
 
 .l-top_menu-v2 .menu-icon { color: #f5f5f5 !important; border-radius: var(--sx-radius-sm); transition: background-color .2s var(--sx-ease-expressive), color .2s var(--sx-ease-expressive), box-shadow .2s var(--sx-ease-expressive); }
-/* 0.4.2: наследование цвета только для иконки (::before). ::after — это бульбочка со счётчиком, ей цвет не навязываем */
+/* 0.4.3: наследование цвета только для иконки (::before). ::after — это бульбочка со счётчиком, ей цвет не навязываем */
 .l-top_menu-v2 .menu-icon:before { color: inherit !important; }
 .l-top_menu-v2 .menu-icon.active, .l-top_menu-v2 .menu-icon:focus, .l-top_menu-v2 .menu-icon:active { color: #fff !important; background-color: var(--sx-header-active) !important; }
 @media (hover: hover) and (pointer: fine) { .l-top_menu-v2 .menu-icon:hover { color: #fff !important; background-color: var(--sx-header-hover) !important; } }
 
-/* 0.4.2: бульбочка уведомлений — оригинальная: белая, цифра тёмная (размер и позиция — оригинальные) */
+/* 0.4.3: бульбочка уведомлений — оригинальная: белая, цифра тёмная (размер и позиция — оригинальные) */
 .l-top_menu-v2 .menu-icon[data-count]::after,
 .l-top_menu-v2 .menu-icon[data-count]:hover::after,
 .l-top_menu-v2 .menu-icon[data-count]:focus::after,
