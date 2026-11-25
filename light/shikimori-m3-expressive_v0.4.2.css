@@ -958,3 +958,29 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
 @media (prefers-reduced-motion: reduce) {
   .bar.simple.horizontal .line .bar-container .bar { animation: none !important; }
 }
+
+/* =====================================================================
+   26. NEWS LINE ("КОНТЕНТ") — FIX CLIPPING AND OVER-ROUNDED TAGS
+   ===================================================================== */
+.b-news_line-topic a:has(> .status-line):has(> .title),
+.b-news_line-topic a:has(> .status-line):has(> .title) .title {
+  border-radius: 0 !important;
+  overflow: visible !important;
+  corner-shape: round;
+}
+
+.b-news_line-topic .b-anime_status_tag,
+.b-news_line-topic [class*="status_tag"] {
+  border-radius: 4px !important;
+  corner-shape: round;
+}
+
+
+Наказу Про затвердження Порядку топографічної зйомки у масштабах 1:5000, 1:2000, 1:1000 та 1:500 від 17.04.2025 №1675, зареєстрованого в Міністерстві юстиції України 05.06.2025 за №868/44274.   
+
+
+Наказ Про затвердження Порядку топографічної зйомки у масштабах 1:5000, 1:2000, 1:1000 та 1:500 від 17.04.2025 №1675.
+
+05 червня 2025 року
+за № 868/44274
+
