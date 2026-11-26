@@ -1,17 +1,32 @@
 /* =====================================================================
    SHIKIMORI — MATERIAL 3 EXPRESSIVE
-   Version 0.6.1 — Complete unified CSS replacement (compiled).
-   0.6.1: бульбочка уведомлений почты — оригинальная (белая, цифра тёмная)
+   Версия 0.6.1 — полная единая замена CSS (собранная).
+   0.6.1:
+   - вкладки отзывов: не вылезают за границы колонки; у каждого типа свой цвет (положительные зелёные, нейтральные синие, отрицательные розовые)
+   - «Да / Нет»: убран торчащий разделитель, кнопки зелёная и розовая
+   0.6.0:
+   - вкладки отзывов (.navigation-container): M3 connected button group, выбранная вкладка — tonal-контейнер с морфингом формы
+   - «Этот отзыв полезен?»: связанная пара кнопок Да / Нет (внешние углы крупные, внутренние мелкие)
+   - «Загрузить ещё»: tonal-кнопка-пилюля с state layer и морфингом при нажатии
+   - все английские комментарии переведены на русский
+   0.5.0:
+   - кнопки: ссылочный цвет темы больше не перекрашивает текст в .b-button / .b-link_button
+   - кнопки: M3 state layer (наложение 8% hover / 12% pressed) вместо filter: brightness
+   - цитаты: светлее и менее насыщенные, текст контрастнее
+   - спойлер: новые «мушки» (8 слоёв разной скорости, мерцание у каждого слоя, блик)
+   - M3: spring-токен, морфинг формы (кнопки при нажатии, иконки шапки при hover), фокус 3px
+   - скроллбар: webkit-стили теперь работают в Chrome/Edge/Safari
+   - убран посторонний текст в конце файла, дубли, исправлен reduced-motion
    ===================================================================== */
 
-/* Google Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&subset=cyrillic,cyrillic-ext,latin,latin-ext&display=swap");
+/* Google Fonts (вариативный Roboto, нужные подмножества символов браузер подбирает сам по unicode-range) */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400..700&display=swap");
 
-/* Shikimori: opt out of desktop-only wrapper for mobile custom CSS */
+/* Shikimori: выход из обёртки «только для десктопа», чтобы кастомный CSS работал и на мобильных */
 @media {}
 
 /* =====================================================================
-   01. MATERIAL 3 EXPRESSIVE TOKENS
+   01. ТОКЕНЫ MATERIAL 3 EXPRESSIVE
    ===================================================================== */
 
 :root {
@@ -45,21 +60,21 @@
   --sx-border: #d8dfe5;
   --sx-border-strong: #c8d2dc;
 
-  /* Smoother, larger corner scale */
+  /* Более мягкая и крупная шкала скруглений */
   --sx-radius-xs: 6px;
   --sx-radius-sm: 10px;
   --sx-radius-md: 14px;
   --sx-radius-lg: 20px;
   --sx-radius-headline: 8px;
 
-  /* Telegram-style spoiler dust (r, g, b) */
+  /* Пыль спойлера в стиле Telegram (r, g, b) */
   --sx-dust: 98, 118, 140;
 
   --sx-shadow-soft: 0 1px 5px rgba(35, 52, 68, .055);
   --sx-shadow-raised: 0 5px 16px rgba(35, 52, 68, .10);
   --sx-shadow-menu: 0 7px 20px rgba(25, 39, 54, .18);
 
-  /* Elevation levels */
+  /* Уровни возвышения (тени) */
   --sx-elev-1: 0 1px 2px rgba(35, 52, 68, .08), 0 1px 4px rgba(35, 52, 68, .06);
   --sx-elev-2: 0 2px 6px rgba(35, 52, 68, .10), 0 4px 12px rgba(35, 52, 68, .07);
   --sx-elev-3: 0 4px 10px rgba(35, 52, 68, .12), 0 10px 24px rgba(35, 52, 68, .09);
@@ -68,15 +83,24 @@
   --sx-motion: .22s ease;
   --sx-ease-expressive: cubic-bezier(.2, 0, 0, 1);
 
-  /* Original Shikimori dark header color */
+  /* Expressive-пружина (пространственное движение: форма, размер). Запасной вариант — cubic-bezier с лёгким перелётом */
+  --sx-spring: cubic-bezier(.34, 1.45, .5, 1);
+
+  /* Оригинальный тёмный цвет шапки Shikimori */
   --sx-header: #343434;
   --sx-header-trigger: #3e3e3e;
   --sx-header-hover: #505050;
   --sx-header-active: #595959;
 }
 
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --sx-spring: linear(0, .18 7%, .52 17%, .83 29%, 1.03 42%, 1.05 52%, 1.02 64%, .995 78%, 1);
+  }
+}
+
 /* =====================================================================
-   02. TYPOGRAPHY — GOOGLE FONTS, NATIVE SIZE SCALE
+   02. ТИПОГРАФИКА — GOOGLE FONTS, РОДНАЯ ШКАЛА РАЗМЕРОВ
    ===================================================================== */
 
 html { scroll-behavior: smooth; }
@@ -115,20 +139,23 @@ body {
 
 h1, h2, h3, h4, h5 { color: var(--sx-text); letter-spacing: 0; }
 
-a { color: var(--sx-primary); text-decoration-color: transparent; transition: color var(--sx-motion-fast), text-decoration-color var(--sx-motion-fast); }
-a:hover { color: var(--sx-primary-hover); text-decoration-color: currentColor; }
+/* Ссылочный цвет темы НЕ применяется к кнопкам и тегам: у них свои цвета текста и фона.
+   :where() держит специфичность на прежнем уровне. */
+a { transition: color var(--sx-motion-fast), text-decoration-color var(--sx-motion-fast); }
+a:where(:not(.b-button, .b-link_button, .b-tag)) { color: var(--sx-primary); text-decoration-color: transparent; }
+a:where(:not(.b-button, .b-link_button, .b-tag)):hover { color: var(--sx-primary-hover); text-decoration-color: currentColor; }
 ::selection { color: #20384c; background: #d0e2f0; }
 
 .b-topic .body, .b-comment .body, .b-article, .b-review .body, .description-current, .b-text_with_paragraphs { color: #3a4955; }
 .b-topic .name-date a.name, .b-comment .name-date a.name { font-weight: 600; letter-spacing: 0; }
 
 /* =====================================================================
-   03. PAGE CANVAS
+   03. ХОЛСТ СТРАНИЦЫ
    ===================================================================== */
 .l-page { background-color: rgba(253, 252, 250, .97); border-radius: var(--sx-radius-md); box-shadow: var(--sx-elev-2); }
 
 /* =====================================================================
-   04. TOP HEADER
+   04. ВЕРХНЯЯ ШАПКА
    ===================================================================== */
 .l-top_menu-v2 { color: #f5f5f5 !important; background: var(--sx-header) !important; border-bottom: 1px solid rgba(255, 255, 255, .09); box-shadow: 0 2px 4px rgba(0, 0, 0, .20), 0 6px 16px rgba(0, 0, 0, .14); }
 .l-top_menu-v2 .menu-dropdown > span { color: #f5f5f5 !important; background: var(--sx-header-trigger) !important; border-radius: var(--sx-radius-sm); transition: background-color .2s var(--sx-ease-expressive), color .2s var(--sx-ease-expressive), box-shadow .2s var(--sx-ease-expressive); }
@@ -140,18 +167,16 @@ a:hover { color: var(--sx-primary-hover); text-decoration-color: currentColor; }
   .l-top_menu-v2 .menu-dropdown:hover > span, .l-top_menu-v2 .menu-dropdown.main:hover > span, .l-top_menu-v2 .menu-dropdown.profile:hover > span { color: #fff !important; background: var(--sx-header-hover) !important; }
 }
 
-.l-top_menu-v2 .menu-icon { color: #f5f5f5 !important; border-radius: var(--sx-radius-sm); transition: background-color .2s var(--sx-ease-expressive), color .2s var(--sx-ease-expressive), box-shadow .2s var(--sx-ease-expressive); }
-/* 0.6.1: наследование цвета только для иконки (::before). ::after — это бульбочка со счётчиком, ей цвет не навязываем */
+/* Иконки шапки: M3 shape morphing — при hover/active скругление растёт (spring) */
+.l-top_menu-v2 .menu-icon { color: #f5f5f5 !important; border-radius: var(--sx-radius-sm); transition: background-color .2s var(--sx-ease-expressive), color .2s var(--sx-ease-expressive), box-shadow .2s var(--sx-ease-expressive), border-radius .4s var(--sx-spring); }
+/* наследование цвета только для иконки (::before). ::after — бульбочка со счётчиком */
 .l-top_menu-v2 .menu-icon:before { color: inherit !important; }
-.l-top_menu-v2 .menu-icon.active, .l-top_menu-v2 .menu-icon:focus, .l-top_menu-v2 .menu-icon:active { color: #fff !important; background-color: var(--sx-header-active) !important; }
-@media (hover: hover) and (pointer: fine) { .l-top_menu-v2 .menu-icon:hover { color: #fff !important; background-color: var(--sx-header-hover) !important; } }
+.l-top_menu-v2 .menu-icon.active, .l-top_menu-v2 .menu-icon:focus, .l-top_menu-v2 .menu-icon:active { color: #fff !important; background-color: var(--sx-header-active) !important; border-radius: 16px; }
+@media (hover: hover) and (pointer: fine) { .l-top_menu-v2 .menu-icon:hover { color: #fff !important; background-color: var(--sx-header-hover) !important; border-radius: 16px; } }
 
-/* 0.6.1: бульбочка уведомлений — оригинальная: белая, цифра тёмная (размер и позиция — оригинальные) */
+/* Бульбочка уведомлений — оригинальная: белая, цифра тёмная (размер и позиция — оригинальные) */
 .l-top_menu-v2 .menu-icon[data-count]::after,
-.l-top_menu-v2 .menu-icon[data-count]:hover::after,
-.l-top_menu-v2 .menu-icon[data-count]:focus::after,
-.l-top_menu-v2 .menu-icon[data-count]:active::after,
-.l-top_menu-v2 .menu-icon[data-count].active::after {
+.l-top_menu-v2 .menu-icon[data-count]:is(:hover, :focus, :active, .active)::after {
   color: #000 !important;
   -webkit-text-fill-color: #000 !important;
   background: #fff !important;
@@ -159,7 +184,7 @@ a:hover { color: var(--sx-primary-hover); text-decoration-color: currentColor; }
   opacity: 1 !important;
 }
 
-/* --- ВОЗВРАЩЕННЫЕ ВЫПАДАЮЩИЕ МЕНЮ ИЗ ВТОРОГО КОДА --- */
+/* Выпадающие меню */
 .l-top_menu-v2 .submenu,
 .l-top_menu-v2 .submenu-inner,
 .l-top_menu-v2 .submenu > .heading {
@@ -185,14 +210,13 @@ a:hover { color: var(--sx-primary-hover); text-decoration-color: currentColor; }
   color: #244d70 !important;
   background: #e4e9ee !important;
 }
-/* --------------------------------------------------- */
 
 .l-top_menu-v2 .global-search input { color: #2b3d4e !important; background: #f6f5f2 !important; border: 1px solid rgba(255, 255, 255, .20); border-radius: 18px; transition: background var(--sx-motion-fast), border-color var(--sx-motion-fast), box-shadow var(--sx-motion-fast); }
 .l-top_menu-v2 .global-search input:focus { background: #fefefd !important; border-color: #9dbbd4; box-shadow: 0 0 0 3px rgba(157, 187, 212, .28), var(--sx-elev-1); }
 .l-top_menu-v2 .global-search .search-results { color: #293b4d; background: #faf9f7; border-color: var(--sx-border); border-radius: var(--sx-radius-md); box-shadow: var(--sx-shadow-menu); }
 
 /* =====================================================================
-   05. HEADLINES
+   05. ЗАГОЛОВКИ
    ===================================================================== */
 .headline, .midheadline, .subheadline, .linkheadline { border-radius: var(--sx-radius-headline); }
 .linkheadline a { border-radius: inherit; }
@@ -205,7 +229,7 @@ a:hover { color: var(--sx-primary-hover); text-decoration-color: currentColor; }
 .p-dashboards-show .c-content .options .option, .c-content .options .option { border-radius: 10px; }
 
 /* =====================================================================
-   05b. HOME CARDS, POSTERS, TOOLTIPS, BADGES
+   05b. КАРТОЧКИ ГЛАВНОЙ, ПОСТЕРЫ, ТУЛТИПЫ, БЕЙДЖИ
    ===================================================================== */
 a:has(> .status-line):has(> .title), div.title[href] { border-radius: var(--sx-radius-md); overflow: hidden; }
 a:has(> .status-line):has(> .title) .poster, a:has(> .status-line):has(> .title) .b-shiki_swiper, a:has(> .status-line):has(> .title) picture, a:has(> .status-line):has(> .title) img { border-radius: var(--sx-radius-md); overflow: hidden; }
@@ -217,7 +241,7 @@ a:has(> .status-line):has(> .title) .title { border-radius: 0 0 var(--sx-radius-
 .b-badge, .b-badge img { border-radius: var(--sx-radius-md); }
 
 /* =====================================================================
-   06. EXISTING CONTENT
+   06. СУЩЕСТВУЮЩИЙ КОНТЕНТ
    ===================================================================== */
 .b-topic { border-top-color: var(--sx-border-strong); transition: background-color .2s var(--sx-ease-expressive); }
 .b-topic .name-date .time { color: var(--sx-text-muted); }
@@ -230,19 +254,19 @@ a:has(> .status-line):has(> .title) .title { border-radius: 0 0 var(--sx-radius-
 .b-spoiler_block > div { box-shadow: var(--sx-elev-1); }
 
 /* =====================================================================
-   07. QUOTES
+   07. ЦИТАТЫ — светлее, спокойнее, текст контрастный
    ===================================================================== */
-.b-quote, .b-topic .b-quote, .b-comment .b-quote { --q-bg: #d7e5f2; --q-fg: #172b3c; --q-accent: #3b7db0; --q-name: #1b5582; --q-ring: rgba(60, 111, 151, .10); color: var(--q-fg) !important; background: var(--q-bg) !important; border: 0 !important; border-radius: 14px !important; font-style: normal; padding: 8px 12px 8px 17px !important; margin: 7px 0 8px 5px; box-shadow: inset 4px 0 0 var(--q-accent), inset 0 0 0 1px var(--q-ring), 0 1px 2px rgba(35, 52, 68, .08); }
-.b-quote .b-quote { --q-bg: #d6eae5; --q-fg: #12302c; --q-accent: #4b8d80; --q-name: #20594f; --q-ring: rgba(69, 128, 116, .12); }
-.b-quote .b-quote .b-quote { --q-bg: #e6ddf1; --q-fg: #2a2140; --q-accent: #8068a8; --q-name: #553e7c; --q-ring: rgba(118, 95, 158, .12); }
+.b-quote, .b-topic .b-quote, .b-comment .b-quote { --q-bg: #e8eff6; --q-fg: #27343f; --q-accent: #6a9cc2; --q-name: #2c5a80; --q-ring: rgba(60, 111, 151, .12); color: var(--q-fg) !important; background: var(--q-bg) !important; border: 0 !important; border-radius: 14px !important; font-style: normal; padding: 8px 12px 8px 17px !important; margin: 7px 0 8px 5px; box-shadow: inset 4px 0 0 var(--q-accent), inset 0 0 0 1px var(--q-ring), 0 1px 2px rgba(35, 52, 68, .06); }
+.b-quote .b-quote { --q-bg: #e4f0ec; --q-fg: #1f3532; --q-accent: #6fa99c; --q-name: #245a50; --q-ring: rgba(69, 128, 116, .14); }
+.b-quote .b-quote .b-quote { --q-bg: #ece8f4; --q-fg: #2c2640; --q-accent: #9b88bf; --q-name: #5a4382; --q-ring: rgba(118, 95, 158, .14); }
 .b-quote .quoteable { color: var(--q-name) !important; font-weight: 600; font-style: normal; line-height: 1.45; }
 .b-quote .quoteable a, .b-quote .quoteable a:visited { color: var(--q-name) !important; font-weight: 600; }
 .b-quote .quoteable:before { color: var(--q-accent) !important; }
 .b-quote a:not(.quoteable), .b-quote a:not(.quoteable):visited { color: var(--q-name); text-decoration-color: currentColor; text-underline-offset: 2px; }
-.b-topic blockquote, .b-comment blockquote, .b-article blockquote, .b-review blockquote { color: #172b3c; background: #d7e5f2; border: 0; border-radius: 14px; padding: 8px 12px 8px 17px; margin: 8px 0; box-shadow: inset 4px 0 0 #3b7db0, inset 0 0 0 1px rgba(60, 111, 151, .10), 0 1px 2px rgba(35, 52, 68, .08); }
+.b-topic blockquote, .b-comment blockquote, .b-article blockquote, .b-review blockquote { color: #27343f; background: #e8eff6; border: 0; border-radius: 14px; padding: 8px 12px 8px 17px; margin: 8px 0; box-shadow: inset 4px 0 0 #6a9cc2, inset 0 0 0 1px rgba(60, 111, 151, .12), 0 1px 2px rgba(35, 52, 68, .06); }
 
 /* =====================================================================
-   08. MEDIA
+   08. МЕДИА
    ===================================================================== */
 .b-topic .body img, .b-comment .body img, .b-article img, .b-review img { max-width: 100%; height: auto; }
 /* Смайлики — как в стоке: 32×32 px (при исходнике 50×50) */
@@ -262,7 +286,7 @@ a:has(> .status-line):has(> .title) .title { border-radius: 0 0 var(--sx-radius-
 .b-topic .body table, .b-comment .body table { max-width: 100%; }
 
 /* =====================================================================
-   09. CATALOG CARDS AND POSTERS
+   09. КАРТОЧКИ КАТАЛОГА И ПОСТЕРЫ
    ===================================================================== */
 .b-catalog_entry .image-decor, .b-catalog_entry .image-cutter, .b-catalog_entry a > img, .c-poster img, .b-db_entry .c-poster img, .b-db_entry .c-image img { border-radius: var(--sx-radius-sm); box-shadow: var(--sx-elev-1); transition: box-shadow .25s var(--sx-ease-expressive), filter .25s var(--sx-ease-expressive); }
 @media (hover: hover) and (pointer: fine) {
@@ -271,24 +295,51 @@ a:has(> .status-line):has(> .title) .title { border-radius: 0 0 var(--sx-radius-
 }
 
 /* =====================================================================
-   10. BUTTONS
+   10. КНОПКИ — M3 state layers + морфинг формы
+   Текст кнопок остаётся родным (ссылочный цвет темы на них не действует).
+   State layer: inset-тень цветом currentColor поверх фона, под текстом.
    ===================================================================== */
-.b-button, .b-link_button, input[type="submit"], input[type="button"] { border-radius: var(--sx-radius-sm); box-shadow: var(--sx-elev-1); transition: box-shadow .2s var(--sx-ease-expressive), filter .2s var(--sx-ease-expressive), background-color .2s var(--sx-ease-expressive), border-color .2s var(--sx-ease-expressive); }
-@media (hover: hover) and (pointer: fine) { .b-button:hover, .b-link_button:hover, input[type="submit"]:hover, input[type="button"]:hover { box-shadow: var(--sx-elev-2); filter: brightness(1.04); } }
-.b-button:active, .b-link_button:active, input[type="submit"]:active, input[type="button"]:active { box-shadow: var(--sx-elev-1); filter: brightness(.97); }
-.b-button:focus-visible, .b-link_button:focus-visible, button:focus-visible, a:focus-visible { outline: 2px solid #6c9fc5; outline-offset: 2px; }
-.b-spoiler_block > span { border-radius: 10px; padding-left: 11px !important; padding-right: 11px !important; box-shadow: var(--sx-elev-1); transition: box-shadow .2s var(--sx-ease-expressive), filter .2s var(--sx-ease-expressive); }
+.b-button, .b-link_button, input[type="submit"], input[type="button"] { border-radius: var(--sx-radius-sm); box-shadow: var(--sx-elev-1); transition: box-shadow .2s var(--sx-ease-expressive), background-color .2s var(--sx-ease-expressive), border-color .2s var(--sx-ease-expressive), border-radius .35s var(--sx-spring); }
+.b-button:active, .b-link_button:active, input[type="submit"]:active, input[type="button"]:active { box-shadow: var(--sx-elev-1); border-radius: var(--sx-radius-xs); }
+
+@supports (color: color-mix(in srgb, red 8%, transparent)) {
+  @media (hover: hover) and (pointer: fine) {
+    .b-button:hover, .b-link_button:hover, input[type="submit"]:hover, input[type="button"]:hover { box-shadow: var(--sx-elev-2), inset 0 0 0 100vmax color-mix(in srgb, currentColor 8%, transparent); }
+  }
+  .b-button:focus-visible, .b-link_button:focus-visible, input[type="submit"]:focus-visible, input[type="button"]:focus-visible { box-shadow: var(--sx-elev-1), inset 0 0 0 100vmax color-mix(in srgb, currentColor 10%, transparent); }
+  .b-button:active, .b-link_button:active, input[type="submit"]:active, input[type="button"]:active { box-shadow: var(--sx-elev-1), inset 0 0 0 100vmax color-mix(in srgb, currentColor 12%, transparent); }
+}
+@supports not (color: color-mix(in srgb, red 8%, transparent)) {
+  @media (hover: hover) and (pointer: fine) {
+    .b-button:hover, .b-link_button:hover, input[type="submit"]:hover, input[type="button"]:hover { box-shadow: var(--sx-elev-2); }
+  }
+}
+
+/* Фокус: кольцо 3px как в M3 */
+.b-button:focus-visible, .b-link_button:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid #6c9fc5; outline-offset: 2px; }
+
+.b-spoiler_block > span { border-radius: 10px; padding-left: 11px !important; padding-right: 11px !important; box-shadow: var(--sx-elev-1); transition: box-shadow .2s var(--sx-ease-expressive), border-radius .35s var(--sx-spring); }
+.b-spoiler_block > span:active { border-radius: var(--sx-radius-xs); }
+@supports (color: color-mix(in srgb, red 8%, transparent)) {
+  @media (hover: hover) and (pointer: fine) {
+    .b-spoiler_block > span:hover { box-shadow: var(--sx-elev-2), inset 0 0 0 100vmax color-mix(in srgb, currentColor 8%, transparent); }
+  }
+}
 
 /* =====================================================================
-   11. FORMS
+   11. ФОРМЫ
+   Поля ввода — без кнопок (submit/button/reset/file/range/image),
+   чтобы родные кнопки не получали «белый» фон и не теряли читаемость.
    ===================================================================== */
-input:not([type="checkbox"]):not([type="radio"]), select, textarea { color: #2b3d4d; background-color: #fefdfc; border-color: #cbd5df; border-radius: var(--sx-radius-sm); box-shadow: inset 0 1px 2px rgba(35, 52, 68, .06); transition: border-color .2s var(--sx-ease-expressive), box-shadow .2s var(--sx-ease-expressive), background-color .2s var(--sx-ease-expressive); }
+input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not([type="file"]):not([type="range"]):not([type="image"]),
+select, textarea { color: #2b3d4d; background-color: #fefdfc; border-color: #cbd5df; border-radius: var(--sx-radius-sm); box-shadow: inset 0 1px 2px rgba(35, 52, 68, .06); transition: border-color .2s var(--sx-ease-expressive), box-shadow .2s var(--sx-ease-expressive), background-color .2s var(--sx-ease-expressive); }
 input[type="text"], input[type="search"], input[type="email"], input[type="password"], input[type="url"], input[type="number"], input:not([type]), select, textarea { border-radius: 12px; }
-input:focus, select:focus, textarea:focus { background-color: #fefefd; border-color: #6f9ec1; box-shadow: 0 0 0 3px rgba(71, 125, 165, .18); }
-input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outline: 2px solid #6c9fc5; outline-offset: 2px; }
+input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not([type="file"]):not([type="range"]):not([type="image"]):focus,
+select:focus, textarea:focus { background-color: #fefefd; border-color: #6f9ec1; box-shadow: 0 0 0 3px rgba(71, 125, 165, .18); }
+input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outline: 3px solid #6c9fc5; outline-offset: 2px; }
 
 /* =====================================================================
-   12. PROFILE
+   12. ПРОФИЛЬ
    ===================================================================== */
 .p-profiles .profile-head .c-brief .avatar img { border-radius: var(--sx-radius-md); }
 .p-profiles .profile-head .c-brief header h1 { color: var(--sx-text); }
@@ -300,7 +351,7 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
 .p-profiles-show .c-history .entry img, .p-profiles-show .c-history img { border-radius: var(--sx-radius-sm); }
 
 /* =====================================================================
-   13. PROFILE — STATS BARS
+   13. ПРОФИЛЬ — ПОЛОСЫ СТАТИСТИКИ
    ===================================================================== */
 .b-stats_bar { color: var(--sx-text); }
 .b-stats_bar .title { color: #354a5d; font-family: "Roboto", Arial, sans-serif; font-weight: 600; letter-spacing: 0; }
@@ -325,9 +376,8 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
 @media (hover: hover) and (pointer: fine) { .b-stats_bar .bar:hover .first, .b-stats_bar .bar:hover .second, .b-stats_bar .bar:hover .third { filter: brightness(1.03) saturate(1.08); } }
 
 /* =====================================================================
-   14. PROFILE — ACTIVITY GRAPH
+   14. ПРОФИЛЬ — ГРАФИК АКТИВНОСТИ
    ===================================================================== */
-:root { --sx-spring: cubic-bezier(.34, 1.45, .5, 1); }
 .activity .graph.vertical .line .bar-container {
   border-radius: 9px 9px 0 0;
   background: linear-gradient(180deg, rgba(80, 123, 156, 0) 0%, rgba(80, 123, 156, .07) 100%);
@@ -356,7 +406,7 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
 }
 
 /* =====================================================================
-   15. LIST STATUS DROPDOWN
+   15. ВЫПАДАЮЩИЙ СПИСОК СТАТУСА
    ===================================================================== */
 .b-add_to_list .trigger { border-radius: var(--sx-radius-md); box-shadow: var(--sx-elev-1); }
 .b-add_to_list .trigger-arrow, .b-add_to_list .edit-trigger { border-radius: inherit; }
@@ -366,9 +416,15 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
 .b-rate .stars.hover { color: #c28b45; }
 
 /* =====================================================================
-   16. SCROLLBARS
+   16. ПОЛОСЫ ПРОКРУТКИ
+   Firefox: стандартные scrollbar-color/width.
+   Chrome/Edge/Safari: стандартные свойства сбрасываются в auto,
+   иначе они отключают ::-webkit-scrollbar и скруглённый ползунок не виден.
    ===================================================================== */
 * { scrollbar-width: auto; scrollbar-color: #a9b6c3 #eceae5; }
+@supports selector(::-webkit-scrollbar) {
+  * { scrollbar-width: auto; scrollbar-color: auto; }
+}
 ::-webkit-scrollbar { width: 16px; height: 16px; }
 ::-webkit-scrollbar-track { background: #eceae5; border-radius: 8px; }
 ::-webkit-scrollbar-thumb { background: #a9b6c3; border-radius: 10px; border: 4px solid transparent; background-clip: content-box; min-height: 48px; transition: background-color .2s ease; }
@@ -377,7 +433,7 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
 ::-webkit-scrollbar-corner { background: transparent; }
 
 /* =====================================================================
-   16b. "SCROLL TO TOP" EDGE BUTTON (left side)
+   16b. БОКОВАЯ КНОПКА «НАВЕРХ» (слева)
    ===================================================================== */
 
 .b-to-top {
@@ -419,7 +475,7 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
 }
 
 /* =====================================================================
-   16c. TAGS, STATUS BADGES
+   16c. ТЕГИ, СТАТУС-БЕЙДЖИ
    ===================================================================== */
 .b-anime_status_tag, [class*="status_tag"], .b-tag, .b-topic_tag, [class*="b-tag"]:not([class*="tags"]), [class*="topic_tag"], [class*="forum_tag"], .linked-tag { border-radius: 9px; }
 .b-anime_status_tag, [class*="status_tag"] { padding: 1px 8px !important; box-shadow: 0 1px 2px rgba(35, 52, 68, .12); }
@@ -428,41 +484,68 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
 .pagination a, .pagination .link, .pagination .current, .pagination .page, .b-pagination a { border-radius: 10px; }
 
 /* =====================================================================
-   16d. INLINE SPOILER — TELEGRAM-STYLE MOVING PARTICLES
+   16d. СТРОЧНЫЙ СПОЙЛЕР — ЧАСТИЦЫ В СТИЛЕ TELEGRAM (v2)
+   9 слоёв «пыли» разного размера летят с разной скоростью и в разные
+   стороны (параллакс), у каждого слоя своё мерцание (через @property),
+   сверху изредка проходит мягкий блик. Тайлы взаимно простые, поэтому
+   сетка не читается; смещения кратны тайлам — цикл бесшовный.
+   Если @property не поддерживается, пыль просто движется без мерцания.
    ===================================================================== */
+@property --sx-sp1 { syntax: "<number>"; inherits: false; initial-value: .9; }
+@property --sx-sp2 { syntax: "<number>"; inherits: false; initial-value: .8; }
+@property --sx-sp3 { syntax: "<number>"; inherits: false; initial-value: .85; }
+@property --sx-sp4 { syntax: "<number>"; inherits: false; initial-value: .7; }
+@property --sx-sh  { syntax: "<number>"; inherits: false; initial-value: 60; }
+
 .b-spoiler_inline {
   cursor: pointer;
-  border-radius: 7px;
+  border-radius: 8px;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   outline: none;
-  padding: 3px 7px;      /* вертикальный + горизонтальный отступ */
-  line-height: 1.5;      /* чуть выше строки, чтобы фон не был «тонкой линией» */
+  padding: .08em .4em;
+  transition: background-color .25s var(--sx-ease-expressive);
 }
 
-/* Закрытый спойлер: текст скрыт, поверх бегут частицы */
+/* Закрытый спойлер: текст скрыт, поверх летит пыль */
 .b-spoiler_inline:not(:focus):not(.is-opened):not(.opened):not(.open):not(.is-open):not(.revealed):not(.is-revealed):not(.active) {
   color: transparent !important;
   text-shadow: none !important;
   user-select: none;
   -webkit-user-select: none;
-  background-color: rgba(var(--sx-dust), .18);
+  background-color: rgba(var(--sx-dust), .16);
   background-image:
-    radial-gradient(circle at 30% 40%, rgba(var(--sx-dust), .95) 0 .8px, transparent 1.5px),
-    radial-gradient(circle at 65% 30%, rgba(var(--sx-dust), .85) 0 .7px, transparent 1.4px),
-    radial-gradient(circle at 40% 70%, rgba(var(--sx-dust), .80) 0 .7px, transparent 1.4px),
-    radial-gradient(circle at 70% 55%, rgba(255, 255, 255, .95) 0 .8px, transparent 1.5px),
-    radial-gradient(circle at 50% 50%, rgba(var(--sx-dust), .75) 0 .6px, transparent 1.3px) !important;
-  background-size: 9px 11px, 13px 9px, 7px 13px, 17px 15px, 11px 7px !important;
+    linear-gradient(100deg,
+      transparent calc(var(--sx-sh, 60) * 1% - 26%),
+      rgba(255, 255, 255, .42) calc(var(--sx-sh, 60) * 1% - 13%),
+      transparent calc(var(--sx-sh, 60) * 1%)),
+    radial-gradient(circle at 28% 36%, rgba(255, 255, 255, var(--sx-sp1, .95)) 0 .9px, transparent 1.7px),
+    radial-gradient(circle at 66% 28%, rgba(var(--sx-dust), var(--sx-sp2, .85)) 0 .8px, transparent 1.5px),
+    radial-gradient(circle at 42% 72%, rgba(var(--sx-dust), var(--sx-sp3, .85)) 0 .7px, transparent 1.4px),
+    radial-gradient(circle at 74% 58%, rgba(255, 255, 255, var(--sx-sp4, .8)) 0 1px, transparent 1.9px),
+    radial-gradient(circle at 52% 46%, rgba(var(--sx-dust), var(--sx-sp1, .85)) 0 .6px, transparent 1.3px),
+    radial-gradient(circle at 20% 70%, rgba(255, 255, 255, var(--sx-sp2, .8)) 0 .6px, transparent 1.3px),
+    radial-gradient(circle at 60% 20%, rgba(var(--sx-dust), var(--sx-sp4, .8)) 0 1.1px, transparent 2px),
+    radial-gradient(circle at 35% 55%, rgba(var(--sx-dust), var(--sx-sp3, .8)) 0 .6px, transparent 1.3px),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, calc(var(--sx-sp2, .8) * .38)) 0 2px, transparent 5px) !important;
+  background-size:
+    100% 100%,
+    19px 23px, 29px 17px, 13px 31px, 37px 21px, 23px 29px, 17px 13px, 41px 37px, 11px 19px, 53px 33px !important;
   background-repeat: repeat !important;
-  background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
+  background-position:
+    0 0,
+    0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
   animation:
-    sx-spoiler-move 12s linear infinite,
-    sx-spoiler-twinkle 1.7s linear infinite,
-    sx-spoiler-haze 1.9s ease-in-out infinite alternate;
+    sx-spoiler-move 9s linear infinite,
+    sx-sp-a 1.4s ease-in-out infinite,
+    sx-sp-b 2.1s ease-in-out -.6s infinite,
+    sx-sp-c 1.8s ease-in-out -1.1s infinite,
+    sx-sp-d 2.7s ease-in-out -.3s infinite,
+    sx-spoiler-sheen 5.5s ease-in-out infinite,
+    sx-spoiler-haze 2.2s ease-in-out infinite alternate;
 }
-.b-spoiler_inline:not(:focus):not(.is-opened):not(.opened):not(.open):not(.is-open):not(.revealed):not(.is-revealed):not(.active) > span,
-.b-spoiler_inline:not(:focus):not(.is-opened):not(.opened):not(.open):not(.is-open):not(.revealed):not(.is-revealed):not(.active) a {
+.b-spoiler_inline:not(:is(:focus, .is-opened, .opened, .open, .is-open, .revealed, .is-revealed, .active)) > span,
+.b-spoiler_inline:not(:is(:focus, .is-opened, .opened, .open, .is-open, .revealed, .is-revealed, .active)) a {
   display: inline !important;
   visibility: visible !important;
   opacity: 1 !important;
@@ -470,44 +553,36 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
   text-shadow: none !important;
 }
 /* Скрываем изображения (смайлики, картинки) внутри закрытого спойлера */
-.b-spoiler_inline:not(:focus):not(.is-opened):not(.opened):not(.open):not(.is-open):not(.revealed):not(.is-revealed):not(.active) img,
-.b-spoiler_inline:not(:focus):not(.is-opened):not(.opened):not(.open):not(.is-open):not(.revealed):not(.is-revealed):not(.active) picture,
-.b-spoiler_inline:not(:focus):not(.is-opened):not(.opened):not(.open):not(.is-open):not(.revealed):not(.is-revealed):not(.active) video,
-.b-spoiler_inline:not(:focus):not(.is-opened):not(.opened):not(.open):not(.is-open):not(.revealed):not(.is-revealed):not(.active) svg,
-.b-spoiler_inline:not(:focus):not(.is-opened):not(.opened):not(.open):not(.is-open):not(.revealed):not(.is-revealed):not(.active) canvas {
+.b-spoiler_inline:not(:is(:focus, .is-opened, .opened, .open, .is-open, .revealed, .is-revealed, .active)) :is(img, picture, video, svg, canvas) {
   visibility: hidden !important;
   pointer-events: none !important;
 }
-.b-spoiler_inline:not(:focus):not(.is-opened):not(.opened):not(.open):not(.is-open):not(.revealed):not(.is-revealed):not(.active)::before,
-.b-spoiler_inline:not(:focus):not(.is-opened):not(.opened):not(.open):not(.is-open):not(.revealed):not(.is-revealed):not(.active)::after { display: none !important; }
+.b-spoiler_inline:not(:is(:focus, .is-opened, .opened, .open, .is-open, .revealed, .is-revealed, .active))::before,
+.b-spoiler_inline:not(:is(:focus, .is-opened, .opened, .open, .is-open, .revealed, .is-revealed, .active))::after { display: none !important; }
 
 /* Открытый спойлер */
 .b-spoiler_inline:focus, .b-spoiler_inline.is-opened, .b-spoiler_inline.opened, .b-spoiler_inline.open, .b-spoiler_inline.is-open, .b-spoiler_inline.revealed, .b-spoiler_inline.is-revealed, .b-spoiler_inline.active { background-image: none !important; background-color: rgba(var(--sx-dust), .08); animation: none; text-shadow: none; }
 
-/* Движение слоёв */
+/* Движение слоёв: смещения кратны размерам тайлов, у каждого слоя своя скорость и направление */
 @keyframes sx-spoiler-move {
-  0%    { background-position:    0px  0px,     0px  0px,    0px    0px,     0px    0px,   0px  0px; }
-  12.5% { background-position:    9px  4px,   -13px -3px,    3px  -13px,    17px   15px,   5px  7px; }
-  25%   { background-position:   18px  0px,   -26px  0px,    0px  -26px,    34px   30px,   0px 14px; }
-  37.5% { background-position:   27px -4px,   -39px  3px,   -3px  -39px,    51px   45px,  -5px 21px; }
-  50%   { background-position:   36px  0px,   -52px  0px,    0px  -52px,    68px   60px,   0px 28px; }
-  62.5% { background-position:   45px  4px,   -65px -3px,    3px  -65px,    85px   75px,   5px 35px; }
-  75%   { background-position:   54px  0px,   -78px  0px,    0px  -78px,   102px   90px,   0px 42px; }
-  87.5% { background-position:   63px -4px,   -91px  3px,   -3px  -91px,   119px  105px,  -5px 49px; }
-  100%  { background-position:   72px  0px,  -104px  0px,    0px -104px,   136px  120px,   0px 56px; }
+  from { background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0; }
+  to   { background-position: 0 0, 38px 46px, -58px 34px, 26px -62px, -37px -42px, 69px 29px, -34px 26px, 41px 37px, 22px 57px, 53px -33px; }
 }
-@keyframes sx-spoiler-twinkle {
-  0%, 100% { opacity: 1; }
-  15% { opacity: .78; }
-  30% { opacity: .96; }
-  48% { opacity: .72; }
-  66% { opacity: 1; }
-  82% { opacity: .85; }
+/* Независимое мерцание четырёх групп слоёв */
+@keyframes sx-sp-a { 0%, 100% { --sx-sp1: 1; }   50% { --sx-sp1: .22; } }
+@keyframes sx-sp-b { 0%, 100% { --sx-sp2: .95; } 50% { --sx-sp2: .18; } }
+@keyframes sx-sp-c { 0%, 100% { --sx-sp3: 1; }   50% { --sx-sp3: .25; } }
+@keyframes sx-sp-d { 0%, 100% { --sx-sp4: .9; }  50% { --sx-sp4: .2; } }
+/* Мягкий блик слева направо, затем пауза */
+@keyframes sx-spoiler-sheen {
+  0%   { --sx-sh: 0; }
+  60%  { --sx-sh: 126; }
+  100% { --sx-sh: 126; }
 }
-@keyframes sx-spoiler-haze { from { background-color: rgba(var(--sx-dust), .14); } to { background-color: rgba(var(--sx-dust), .26); } }
+@keyframes sx-spoiler-haze { from { background-color: rgba(var(--sx-dust), .13); } to { background-color: rgba(var(--sx-dust), .24); } }
 
 /* =====================================================================
-   16e. SMOOTH CORNERS (squircle)
+   16e. ПЛАВНЫЕ УГЛЫ (squircle)
    ===================================================================== */
 @supports (corner-shape: squircle) {
   .headline, .midheadline, .subheadline, .linkheadline,
@@ -532,38 +607,42 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
   input[type="text"], input[type="search"], input[type="email"],
   input[type="password"], input[type="url"], input[type="number"],
   select, textarea,
+  .l-top_menu-v2 .menu-icon,
   .activity .graph.vertical .line .bar,
   .b-stats_bar .bar,
-  .b-to-top > .slide {
+  .b-to-top > .slide,
+  .navigation-container .navigation-node,
+  .b-footer_vote .vote,
+  .comments-loader {
     corner-shape: squircle;
   }
 }
 
 /* =====================================================================
-   17. MOBILE
+   17. МОБИЛЬНАЯ ВЕРСИЯ
    ===================================================================== */
 @media screen and (max-width: 1023px) {
-  body { background: url(/assets/background/scribble_light.png) repeat; }
   .l-page { border-radius: 0; box-shadow: none; }
   .b-quote, .b-topic .b-quote, .b-comment .b-quote { margin-left: 0; padding: 8px 10px 8px 15px !important; }
 }
 
 /* =====================================================================
-   18. ACCESSIBILITY
+   18. ДОСТУПНОСТЬ
    ===================================================================== */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .activity .graph.vertical .line .bar,
   .b-spoiler_inline,
-  .b-to-top > .arrow {
+  .b-to-top .arrow,
+  .b-to-top:hover .arrow {
     animation: none !important;
     transform: none !important;
   }
-  a, .b-button, .b-link_button, .b-catalog_entry a img, .b-catalog_entry .image-decor, .b-catalog_entry .image-cutter, .b-spoiler_block > span, .b-add_to_list .trigger, .b-add_to_list .option, input, select, textarea { transition: none !important; }
+  a, .b-button, .b-link_button, .b-catalog_entry a img, .b-catalog_entry .image-decor, .b-catalog_entry .image-cutter, .b-spoiler_block > span, .b-add_to_list .trigger, .b-add_to_list .option, .l-top_menu-v2 .menu-icon, .navigation-container .navigation-node, .b-footer_vote .vote, .comments-loader, input, select, textarea { transition: none !important; }
 }
 
 /* =====================================================================
-   19. PROFILE — LIFETIME CUT MARKERS (full-height bar dividers)
+   19. ПРОФИЛЬ — МАРКЕРЫ ОТРЕЗКОВ LIFETIME (разделители во всю высоту полосы)
    ===================================================================== */
 .p-profiles-show .lifetime,
 .p-profiles-show .lifetime .bar,
@@ -604,12 +683,6 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
   z-index: 41 !important;
 }
 
-@supports (corner-shape: squircle) {
-  .p-profiles-show .lifetime .cuts .cut {
-    corner-shape: squircle;
-  }
-}
-
 .p-profiles-show .lifetime .cut.week,
 .p-profiles-show .lifetime .cut.month,
 .p-profiles-show .lifetime .cut.month_3,
@@ -620,7 +693,7 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
 
 
 /* =====================================================================
-   20. ACHIEVEMENTS — ORIGINAL LAYOUT + ROUNDED POSTERS
+   20. ДОСТИЖЕНИЯ — ОРИГИНАЛЬНАЯ РАСКЛАДКА + СКРУГЛЁННЫЕ ПОСТЕРЫ
    ===================================================================== */
 
 .b-achievement,
@@ -659,7 +732,7 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
 
 
 /* =====================================================================
-   21. FRANCHISES — ROUNDED POSTERS
+   21. ФРАНШИЗЫ — СКРУГЛЁННЫЕ ПОСТЕРЫ
    ===================================================================== */
 .b-catalog_entry,
 .b-catalog_entry .image-decor,
@@ -686,40 +759,16 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
 }
 
 /* =====================================================================
-   22. PROFILE SETTINGS — ROBOTO TYPOGRAPHY
+   22. НАСТРОЙКИ ПРОФИЛЯ — ТИПОГРАФИКА ROBOTO
    ===================================================================== */
 .p-profiles-edit,
-.p-profiles-edit .l-content,
-.p-profiles-edit .block,
-.p-profiles-edit form,
-.p-profiles-edit fieldset,
-.p-profiles-edit legend,
-.p-profiles-edit label,
-.p-profiles-edit .field,
-.p-profiles-edit .hint,
-.p-profiles-edit .help,
-.p-profiles-edit .notice,
-.p-profiles-edit .subheadline,
-.p-profiles-edit .headline,
-.p-profiles-edit h1,
-.p-profiles-edit h2,
-.p-profiles-edit h3,
-.p-profiles-edit h4,
-.p-profiles-edit p,
-.p-profiles-edit li,
-.p-profiles-edit td,
-.p-profiles-edit th,
-.p-profiles-edit a,
-.p-profiles-edit button,
-.p-profiles-edit input,
-.p-profiles-edit select,
-.p-profiles-edit textarea {
+.p-profiles-edit :is(.l-content, .block, form, fieldset, legend, label, .field, .hint, .help, .notice, .subheadline, .headline, h1, h2, h3, h4, p, li, td, th, a, button, input, select, textarea) {
   font-family: "Roboto", "Helvetica Neue", Arial, sans-serif !important;
   font-variation-settings: normal;
 }
 
 /* =====================================================================
-   23. RATING STARS — BRIGHT, ORIGINAL GOLD HOVER
+   23. ЗВЁЗДЫ ОЦЕНКИ — ЯРКИЙ ОРИГИНАЛЬНЫЙ ЗОЛОТОЙ HOVER
    ===================================================================== */
 .b-rate .stars-container .stars.hover,
 .b-rate .stars-container:hover .stars.hover,
@@ -739,7 +788,7 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
 }
 
 /* =====================================================================
-   24. FORUM — NATIVE FLAT LAYOUT (REMOVED CARDS/OVERFLOWS)
+   24. ФОРУМ — РОДНАЯ ПЛОСКАЯ РАСКЛАДКА (УБРАНЫ КАРТОЧКИ И ПЕРЕПОЛНЕНИЯ)
    ===================================================================== */
 .b-forum,
 .p-forums .b-forum,
@@ -802,7 +851,7 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
 }
 
 /* =====================================================================
-   25. SCORE DISTRIBUTION — HORIZONTAL BAR CHART (rates_scores_stats)
+   25. РАСПРЕДЕЛЕНИЕ ОЦЕНОК — ГОРИЗОНТАЛЬНАЯ ДИАГРАММА (rates_scores_stats)
    ===================================================================== */
 .bar.simple.horizontal {
   display: flex;
@@ -960,7 +1009,7 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
 }
 
 /* =====================================================================
-   26. NEWS LINE ("КОНТЕНТ") — FIX CLIPPING AND OVER-ROUNDED TAGS
+   26. ЛЕНТА НОВОСТЕЙ («КОНТЕНТ») — ИСПРАВЛЕНИЕ ОБРЕЗКИ И ЧРЕЗМЕРНО СКРУГЛЁННЫХ ТЕГОВ
    ===================================================================== */
 .b-news_line-topic a:has(> .status-line):has(> .title),
 .b-news_line-topic a:has(> .status-line):has(> .title) .title {
@@ -975,12 +1024,188 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
   corner-shape: round;
 }
 
+/* =====================================================================
+   27. ВКЛАДКИ ОТЗЫВОВ, «ЭТОТ ОТЗЫВ ПОЛЕЗЕН?», «ЗАГРУЗИТЬ ЕЩЁ» — M3 EXPRESSIVE
+   ===================================================================== */
 
-Наказу Про затвердження Порядку топографічної зйомки у масштабах 1:5000, 1:2000, 1:1000 та 1:500 від 17.04.2025 №1675, зареєстрованого в Міністерстві юстиції України 05.06.2025 за №868/44274.   
+/* --- Вкладки отзывов: connected button group ---
+   Вкладки делят ширину колонки поровну (не вылезают за границы), текст
+   обрезается многоточием. Тональные цвета по типу отзыва видны всегда,
+   у выбранной вкладки заливка насыщеннее и форма — пилюля. */
+.navigation-container {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 3px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 0 0 14px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.navigation-container .navigation-node {
+  /* палитра по умолчанию («Все отзывы») */
+  --n-bg: #eceae5;
+  --n-bg-on: #d9d6cf;
+  --n-fg: #4a5560;
+  --n-fg-on: #26323c;
 
+  flex: 1 1 0;
+  min-width: 0;
+  width: auto !important;
+  float: none !important;
+  margin: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-sizing: border-box;
+  min-height: 40px;
+  padding: 0 12px;
+  overflow: hidden;
+  color: var(--n-fg) !important;
+  background: var(--n-bg) !important;
+  border: 0 !important;
+  border-radius: 6px !important;
+  box-shadow: none;
+  text-decoration: none !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background-color .2s var(--sx-ease-expressive), color .2s var(--sx-ease-expressive), box-shadow .2s var(--sx-ease-expressive), border-radius .4s var(--sx-spring);
+}
+.navigation-container .navigation-node-positive { --n-bg: #e3f1e8; --n-bg-on: #bfe2cc; --n-fg: #35684f; --n-fg-on: #1c4a33; }
+.navigation-container .navigation-node-neutral  { --n-bg: #e2edf7; --n-bg-on: #c3daee; --n-fg: #3f6585; --n-fg-on: #1f4563; }
+.navigation-container .navigation-node-negative { --n-bg: #f6e4e8; --n-bg-on: #efc5cf; --n-fg: #8a4656; --n-fg-on: #6b2c3b; }
 
-Наказ Про затвердження Порядку топографічної зйомки у масштабах 1:5000, 1:2000, 1:1000 та 1:500 від 17.04.2025 №1675.
+.navigation-container .navigation-node:first-child { border-radius: 20px 6px 6px 20px !important; }
+.navigation-container .navigation-node:last-child { border-radius: 6px 20px 20px 6px !important; }
+.navigation-container .navigation-node:only-child { border-radius: 20px !important; }
 
-05 червня 2025 року
-за № 868/44274
+.navigation-container .navigation-node .label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: inherit !important;
+  text-transform: none !important;
+}
+.navigation-container .navigation-node .label > span { color: inherit !important; text-transform: none !important; }
 
+/* Счётчик: скобки сайта убираем, число остаётся в плашке */
+.navigation-container .navigation-node .count {
+  flex: 0 0 auto;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  box-sizing: border-box;
+  color: inherit !important;
+  background: rgba(255, 255, 255, .7);
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 20px;
+  text-align: center;
+}
+.navigation-container .navigation-node .count::before,
+.navigation-container .navigation-node .count::after { content: none !important; }
+
+/* Выбранная вкладка: насыщенный tonal-контейнер + пилюля */
+.navigation-container .navigation-node.is-active {
+  color: var(--n-fg-on) !important;
+  background: var(--n-bg-on) !important;
+  border-radius: 20px !important;
+  font-weight: 600;
+  box-shadow: var(--sx-elev-1);
+}
+.navigation-container .navigation-node.is-active .count { color: #fff !important; background: var(--n-fg-on); }
+
+.navigation-container .navigation-node:active { border-radius: 10px !important; }
+.navigation-container .navigation-node:focus-visible { outline: 3px solid #6c9fc5; outline-offset: 2px; }
+
+@media screen and (max-width: 640px) {
+  .navigation-container .navigation-node { padding: 0 8px; gap: 4px; font-size: 12px; }
+  .navigation-container .navigation-node .count { min-width: 18px; height: 18px; padding: 0 4px; line-height: 18px; }
+}
+
+/* --- «Этот отзыв полезен?»: связанная пара кнопок Да / Нет --- */
+.b-footer_vote { border-radius: var(--sx-radius-md); }
+.b-footer_vote .notice { color: var(--sx-text-secondary); }
+.b-footer_vote .vote-group {
+  display: inline-flex;
+  align-items: stretch;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+/* разделитель сайта ломал форму кнопок (торчал «/») — зазор делает gap */
+.b-footer_vote .vote-group .separator { display: none !important; }
+.b-footer_vote .vote {
+  position: static !important;
+  float: none !important;
+  width: auto !important;
+  margin: 0 !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 36px;
+  padding: 0 18px;
+  border: 0 !important;
+  box-shadow: var(--sx-elev-1);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color .2s var(--sx-ease-expressive), color .2s var(--sx-ease-expressive), box-shadow .2s var(--sx-ease-expressive), border-radius .4s var(--sx-spring);
+}
+.b-footer_vote .vote > span { color: inherit !important; text-decoration: none !important; border-bottom: 0 !important; }
+.b-footer_vote .vote.yes { color: #2c5a43 !important; background: var(--sx-green-soft) !important; border-radius: 18px 6px 6px 18px !important; }
+.b-footer_vote .vote.no  { color: #7a3f4d !important; background: var(--sx-rose-soft) !important; border-radius: 6px 18px 18px 6px !important; }
+.b-footer_vote .vote:active { border-radius: 10px !important; }
+.b-footer_vote .vote:focus-visible { outline: 3px solid #6c9fc5; outline-offset: 2px; }
+
+/* Выбранный голос (если сайт ставит один из этих классов): насыщеннее + пилюля */
+.b-footer_vote .vote.yes:is(.selected, .active, .is-active, .voted) { background: #bfe2cc !important; border-radius: 18px !important; }
+.b-footer_vote .vote.no:is(.selected, .active, .is-active, .voted) { background: #efc5cf !important; border-radius: 18px !important; }
+
+/* --- «Загрузить ещё N комментариев»: tonal-кнопка-пилюля --- */
+.comments-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 44px;
+  margin: 8px 0;
+  padding: 0 20px;
+  color: #1f4563;
+  background: var(--sx-primary-soft);
+  border: 0;
+  border-radius: 22px;
+  box-shadow: var(--sx-elev-1);
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color .2s var(--sx-ease-expressive), box-shadow .2s var(--sx-ease-expressive), border-radius .4s var(--sx-spring);
+}
+.comments-loader:active { border-radius: 10px; }
+.comments-loader:focus-visible { outline: 3px solid #6c9fc5; outline-offset: 2px; }
+
+/* State layers: 8% при наведении, 12% при нажатии (currentColor поверх фона, под текстом) */
+@supports (color: color-mix(in srgb, red 8%, transparent)) {
+  @media (hover: hover) and (pointer: fine) {
+    .navigation-container .navigation-node:hover { box-shadow: inset 0 0 0 100vmax color-mix(in srgb, currentColor 8%, transparent); }
+    .navigation-container .navigation-node.is-active:hover { box-shadow: var(--sx-elev-1), inset 0 0 0 100vmax color-mix(in srgb, currentColor 8%, transparent); }
+    .b-footer_vote .vote:hover { box-shadow: var(--sx-elev-2), inset 0 0 0 100vmax color-mix(in srgb, currentColor 8%, transparent); }
+    .comments-loader:hover { box-shadow: var(--sx-elev-2), inset 0 0 0 100vmax color-mix(in srgb, currentColor 8%, transparent); }
+  }
+  .navigation-container .navigation-node:active { box-shadow: inset 0 0 0 100vmax color-mix(in srgb, currentColor 12%, transparent); }
+  .b-footer_vote .vote:active { box-shadow: var(--sx-elev-1), inset 0 0 0 100vmax color-mix(in srgb, currentColor 12%, transparent); }
+  .comments-loader:active { box-shadow: var(--sx-elev-1), inset 0 0 0 100vmax color-mix(in srgb, currentColor 12%, transparent); }
+}
