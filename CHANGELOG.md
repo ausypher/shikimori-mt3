@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented here.
 
+## [0.6.1]
+
+### Updated
+- Published the Light stylesheet as `light/shikimori-m3-expressive_v0.6.1.css`.
+- Updated the stylesheet version metadata and all README installation links to v0.6.1.
+- Replaced the previous v0.4.3 stylesheet filename with the v0.6.1 filename.
+
 ## [0.4.3] - 2026-11-25
 
 ### Updated
