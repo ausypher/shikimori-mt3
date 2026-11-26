@@ -4,10 +4,16 @@ All notable changes to this project are documented here.
 
 ## [0.6.1]
 
-### Updated
-- Published the Light stylesheet as `light/shikimori-m3-expressive_v0.6.1.css`.
-- Updated the stylesheet version metadata and all README installation links to v0.6.1.
-- Replaced the previous v0.4.3 stylesheet filename with the v0.6.1 filename.
+### Fixed
+- Review tabs now stay within the content column and use distinct colors by review type: green for positive, blue for neutral, and pink for negative.
+- Removed the protruding divider between the “Yes / No” helpfulness vote buttons; the buttons now use green and pink styling.
+
+### Added and improved
+- Styled review navigation as a Material 3 connected button group, with a tonal selected state and expressive shape morphing.
+- Restyled the “Was this review helpful?” Yes / No controls as a connected pair with expressive outer and inner corner radii.
+- Restyled “Load more” comments as a tonal pill button with state layers and shape morphing.
+- Translated English CSS comments into Russian.
+- Retained the v0.6.0 improvements: M3 state layers, expressive motion and shape morphing, refined quotes, spoiler particle animation, scrollbar fixes, and reduced-motion handling.
 
 ## [0.4.3] - 2026-11-25
 
@@ -42,23 +48,3 @@ All notable changes to this project are documented here.
 ### Note
 - Version 0.3 is the current and recommended Light stylesheet.
 - The Dark variant is still planned and has not been released.
-
-## [0.2] - 2026-11-13
-
-### Updated
-- Published the Material Design 3 Expressive Light stylesheet as `Light/shikimori-m3-expressive_v0.2.css`.
-- Restored the native flat forum layout while retaining the theme's styling for quotes, editor controls, and other interface elements.
-
-### Note
-- Version 0.2 was superseded by version 0.3.
-- The Dark variant was planned and had not been released.
-
-## [0.1] - 2026-11-13
-
-### Added
-- Initial release of the Material Design 3 Expressive Light theme for Shikimori.
-- Separate `Light` and `Dark` directories for the theme variants.
-- Dark variant placeholder; theme was planned and not yet available.
-
-### Status
-- Superseded by version 0.2, then by version 0.3.
